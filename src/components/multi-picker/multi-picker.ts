@@ -9,13 +9,13 @@ import { MultiPickerColumnDays } from './columns/days';
 import { MultiPickerTypeDate } from './types/date';
 import { MultiPickerTypeTime } from './types/time';
 
-interface ChangingValuePart {
+export interface ChangingValuePart {
   columnIndex: number,
   text: string,
   value: number
 }
 
-interface ChangingValue {
+export interface ChangingValue {
   minute?: ChangingValuePart,
   hour?: ChangingValuePart,
   day?: ChangingValuePart,
