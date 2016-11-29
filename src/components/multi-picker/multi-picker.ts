@@ -9,6 +9,20 @@ import { MultiPickerColumnDays } from './columns/days';
 import { MultiPickerTypeDate } from './types/date';
 import { MultiPickerTypeTime } from './types/time';
 
+interface ChangingValuePart {
+  columnIndex: number,
+  text: string,
+  value: number
+}
+
+interface ChangingValue {
+  minute?: ChangingValuePart,
+  hour?: ChangingValuePart,
+  day?: ChangingValuePart,
+  month?: ChangingValuePart,
+  yaer?: ChangingValuePart
+}
+
 export const MULTI_PICKER_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => MultiPicker),
@@ -68,6 +82,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
   @Input() displayFormat: string;
   @Input() min: moment.Moment = moment().subtract(MultiPicker.YEAR_ROUND, 'year').startOf('year');
   @Input() max: moment.Moment = moment().add(MultiPicker.YEAR_ROUND, 'year').endOf('year');
+  @Input() minuteRounding: string|number = 1;
   /**
    * @output {any} Any expression to evaluate when the multi picker selection has changed.
    */
@@ -169,7 +184,8 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     } else {
       this.multiPickerColumns = new MultiPickerTypeTime({
         min: this.min,
-        max: this.max
+        max: this.max,
+        minuteRounding: this.minuteRounding
       })
     }
 
@@ -200,8 +216,12 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
         let dayColumn = new MultiPickerColumnDays('day', 1, 31, this.customFilterDays, this.weekends);
         if (!_(dayColumn.filter(valueMoment.month() + 1, valueMoment.year())).includes(valueMoment.date())) this.onChange('');
       } else {
-        let minuteColumn = new MultiPickerColumnMinutes('minute', 0, 59, this.min, this.max);
-        if (!_(minuteColumn.filter(valueMoment.hour())).includes(valueMoment.minute())) this.onChange('');
+        let minuteColumn = new MultiPickerColumnMinutes('minute', 0, 59, this.min, this.max, this.minuteRounding);
+        const changingValueCandidate = this.momentToChangingValue(minuteColumn.round(this._value));
+        if (!_(minuteColumn.filter(valueMoment.hour())).includes(changingValueCandidate['minutes'].value))
+          this.onChange('');
+        else if (this.minuteRounding != 1)
+          this.onChange(changingValueCandidate);
       }
     }
   }
@@ -245,7 +265,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     }
   }
 
-  setValue(newData: any) {
+  setValue(newData: ChangingValue) {
     if(newData=== null || newData === undefined){
       this._value = '';
     }else{
@@ -273,7 +293,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     this._item && this._item.setElementClass('item-multi-picker-disabled', this._disabled);
   }
 
-  writeValue(val: any) {
+  writeValue(val: ChangingValue) {
     this.setValue(val);
     this.updateText();
     this.checkHasValue(val);
@@ -287,7 +307,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
 
   registerOnChange(fn: Function): void {
     this._fn = fn;
-    this.onChange = (val: any) => {
+    this.onChange = (val: ChangingValue) => {
       this.setValue(this.convertObjectToString(val));
       this.updateText();
       this.checkHasValue(val);
@@ -299,7 +319,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
 
   registerOnTouched(fn: any) { this.onTouched = fn; }
 
-  onChange(val: any) {
+  onChange(val: ChangingValue) {
     // onChange used when there is not an formControlName
     this.setValue(this.convertObjectToString(val));
     this.updateText();
@@ -312,12 +332,18 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     this._form.deregister(this);
   }
 
+  momentToChangingValue(moment) {
+    const fields = this.type == 'date' ? ['years', 'months', 'days'] : ['minutes', 'hours'];
+    return _.mapValues(_.pick(moment.toObject(), fields), (timepart)=> { return { value: timepart } })
+  }
+
   /**
   * @private convert the Picker ionChange event object data to string
   */
-  convertObjectToString(newData) {
-    let newMomentObj = _.mapValues(newData, (timepart)=> timepart['value']);
-    if (newMomentObj.month) newMomentObj.month--;
+  convertObjectToString(newData: ChangingValue) {
+    let newMomentObj: {month?: number} = {};
+    _.each(newData, (timepart, name)=> newMomentObj[name] = timepart.value );
+    if (newMomentObj.month) newMomentObj.month = newMomentObj.month - 1;
     return _.isEmpty(newMomentObj) ? '' : moment(newMomentObj).format();
   }
 }

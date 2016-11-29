@@ -117,6 +117,7 @@ Set `type` to `date` to use datepicker.
 ||||| date | DD.MM.YYYY |
 | min | Validation minimum attribute | ISO 8601 String or moment.Moment |  | time | Beginning of the year, which precedes the current 2 years |
 | max | Validation maximum attribute | ISO 8601 String or moment.Moment | | time | End of the year that follows the current 2 years |
+| minuteRounding | Minutes will be equal this one or aliquot  | String or Number | 60 must be divisible by this | time | 1 |
 | cancelText | Text of picker cancel button | String |  | all | Cancel |
 | doneText | Text of picker done button | String | | all | Done |
 | weekends | Numbers of days of week that should be disabled on datepicker | String or Array of string | E.g.: ['6', '7'] | date | [] |

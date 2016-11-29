@@ -42,7 +42,7 @@
                            [formControl]="formGroup.controls.time"&gt;
       &lt;/ion-multi-picker&gt;
     </pre>
-    <pre>formGroup.controls.date.value = {{formGroup.controls.time.value}}</pre>
+    <pre>formGroup.controls.time.value = {{formGroup.controls.time.value}}</pre>
     <ion-item>
       <ion-label>Min</ion-label>
       <ion-multi-picker item-content [formControl]="formGroup.controls.minTime"></ion-multi-picker>
@@ -51,6 +51,22 @@
       <ion-label>Max</ion-label>
       <ion-multi-picker item-content [formControl]="formGroup.controls.maxTime"></ion-multi-picker>
     </ion-item>
+
+    <hr>
+    <ion-item>
+      <ion-label>TimePicker with minute rounding</ion-label>
+      <ion-multi-picker item-content
+                        minuteRounding='15'
+                        [formControl]="formGroup.controls.timeRounded">
+      </ion-multi-picker>
+    </ion-item>
+    <pre>
+      &lt;ion-multi-picker item-content
+                        minuteRounding='15'
+                        [formControl]="formGroup.controls.timeRounded"&gt;
+      &lt;/ion-multi-picker&gt;
+    </pre>
+    <pre>formGroup.controls.timeRounded.value = {{formGroup.controls.timeRounded.value}}</pre>
   </form>
 
 </ion-content>

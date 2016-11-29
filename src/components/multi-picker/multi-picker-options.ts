@@ -19,7 +19,8 @@ export class MultiPickerColumn implements IMultiPickerColumn {
   constructor(
     public name: string,
     protected firstOptionValue: number,
-    protected lastOptionValue: number
+    protected lastOptionValue: number,
+    protected step: number = 1
   ) {
     this.initOptions();
   }
@@ -37,7 +38,7 @@ export class MultiPickerColumn implements IMultiPickerColumn {
   }
 
   protected range(from:number, to:number): Array<IMultiPickerOption> {
-    return this.toOptions(_.range(from, to + 1))
+    return this.toOptions(_.range(from, to + 1, this.step))
   }
 
   protected optionText(num: number): string {

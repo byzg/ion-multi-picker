@@ -10,13 +10,14 @@ export class MultiPickerTypeTime extends MultiPickerType{
   protected _columns: IMultiPickerTypeTimeColumns;
   private min: moment.Moment;
   private max: moment.Moment;
+  private minuteRounding: number;
   constructor(cmpAttrs) {
     super();
-    [this.min, this.max] = [moment(cmpAttrs.min), moment(cmpAttrs.max)];
+    [this.min, this.max, this.minuteRounding] = [moment(cmpAttrs.min), moment(cmpAttrs.max), parseInt(cmpAttrs.minuteRounding)];
     let [minMinute, maxMinute] = this.max.hour() > this.min.hour() ? [0, 59] : [this.min.minute(), this.max.minute()];
     this._columns = {
       hoursCol: new MultiPickerColumnHours('hour', this.min.hour(), this.max.hour()),
-      minutesCol: new MultiPickerColumnMinutes('minute', minMinute, maxMinute, this.min, this.max),
+      minutesCol: new MultiPickerColumnMinutes('minute', minMinute, maxMinute, this.min, this.max, this.minuteRounding),
     };
   }
 
