@@ -4,7 +4,7 @@
 [![Dependency Status](https://david-dm.org/byzg/ion2-datetime-picker.svg)](https://david-dm.org/byzg/ion2-datetime-picker) [![devDependencies Status](https://david-dm.org/byzg/ion2-datetime-picker/dev-status.svg)](https://david-dm.org/byzg/ion2-datetime-picker?type=dev) [![npm version](https://badge.fury.io/js/ion2-datetime-picker.svg)](https://badge.fury.io/js/ion2-datetime-picker) [![npm download](https://img.shields.io/npm/dm/ion2-datetime-picker.svg)](https://www.npmjs.com/package/ion2-datetime-picker)
 
 
-Ion2 Datetime Picker--An Ionic2 Custom Picker Component based on 
+Ion2 Datetime Picker--An Ionic2 Custom Datetime Picker Component based on 
 [ion-multi-picker](https://github.com/raychenfj/ion-multi-picker) by [raychenfj](https://github.com/raychenfj)
 
 Simulate IOS date and time column pickers by ionic2 picker. Default 
@@ -37,7 +37,7 @@ Ionic CLI 2.1.12 -->
 
 ## Installation
 ```
-npm install ion-multi-picker --save
+npm install ion2-datetime-picker --save
 ```
 
 ## Usage
