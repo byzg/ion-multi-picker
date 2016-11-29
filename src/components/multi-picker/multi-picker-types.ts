@@ -1,26 +1,24 @@
 import _ from 'lodash';
 import { PickerColumn } from 'ionic-angular';
 
-import { MultiPickerColumn, MultiPickerColumnDays } from './multi-picker-columns';
+import { MultiPickerColumn } from './multi-picker-options';
+import { MultiPickerColumnDays } from './columns/days';
 
-export { MultiPickerDateType } from './types/date';
-export { MultiPickerTimeType } from './types/time';
-
-export interface IMultiPickerDateTypeColumns {
+export interface IMultiPickerTypeDateColumns {
   daysCol: MultiPickerColumnDays,
   monthsCol: MultiPickerColumn,
   yearsCol: MultiPickerColumn
 }
 
-export interface IMultiPickerTimeTypeColumns {
+export interface IMultiPickerTypeTimeColumns {
   hoursCol: MultiPickerColumn,
   minutesCol: MultiPickerColumn
 }
 
 export class MultiPickerType {
-  protected _columns: IMultiPickerDateTypeColumns |  IMultiPickerTimeTypeColumns;
+  protected _columns: IMultiPickerTypeDateColumns |  IMultiPickerTypeTimeColumns;
 
-  get(): IMultiPickerDateTypeColumns |  IMultiPickerTimeTypeColumns {
+  get(): IMultiPickerTypeDateColumns |  IMultiPickerTypeTimeColumns {
     return this._columns
   }
 
@@ -31,8 +29,11 @@ export class MultiPickerType {
     button.cssRole = isSomeDisabled ? 'hide' : '';
   }
 
-  protected allSelectedIndexesBlank(columns: PickerColumn[]): boolean {
-    return _.every(columns.map(col => !_.isNumber(col.selectedIndex)))
+  protected someSelectedIndexBlank(columns: PickerColumn[]): boolean {
+    return _.some(columns.map(col => {
+      let isNumber = _.isNumber(col.selectedIndex);
+      return !isNumber || isNumber && col.selectedIndex < 0
+    }))
   }
 
   protected setDefaultSelectedIndexes(columns: PickerColumn[], values: Array<number>): void {

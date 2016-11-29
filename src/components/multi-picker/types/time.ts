@@ -1,11 +1,13 @@
 import moment from 'moment';
 import { PickerColumn } from 'ionic-angular';
 
-import { MultiPickerType, IMultiPickerTimeTypeColumns } from '../multi-picker-types';
-import { MultiPickerColumnHours, MultiPickerColumnMinutes } from '../multi-picker-columns';
+import { MultiPickerType, IMultiPickerTypeTimeColumns } from '../multi-picker-types';
+import { MultiPickerColumnMinutes } from '../columns/minutes';
+import { MultiPickerColumnHours } from '../columns/hours';
 
-export class MultiPickerTimeType extends MultiPickerType{
-  protected _columns: IMultiPickerTimeTypeColumns;
+
+export class MultiPickerTypeTime extends MultiPickerType{
+  protected _columns: IMultiPickerTypeTimeColumns;
   private min: moment.Moment;
   private max: moment.Moment;
   constructor(cmpAttrs) {
@@ -20,7 +22,7 @@ export class MultiPickerTimeType extends MultiPickerType{
 
   validate(columns: PickerColumn[]) {
     let hour: number;
-    if (this.allSelectedIndexesBlank(columns)) {
+    if (this.someSelectedIndexBlank(columns)) {
       let _moment: moment.Moment = moment();
       if (moment({hour: this.min.hour(), minute: this.min.minute()}).isAfter(_moment)) _moment = this.min;
       if (moment({hour: this.max.hour(), minute: this.max.minute()}).isBefore(_moment)) _moment = this.max;
