@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-import { MultiPickerColumn, IMultiPickerColumn, IMultiPickerOption } from '../multi-picker-options';
+import { MultiPickerColumn, IMultiPickerColumn } from '../multi-picker-options';
 
 export class MultiPickerColumnMinutes extends MultiPickerColumn implements IMultiPickerColumn {
   existingMinutes: Object = {};
@@ -55,13 +55,9 @@ export class MultiPickerColumnMinutes extends MultiPickerColumn implements IMult
     if (this.minuteRounding == 1)
       return moment(val);
     else {
-      const _moment = moment.min(moment(val), this.max.clone().subtract(this.minuteRounding, 'm'));
+      const _moment = moment(val);
       const minuteTail = _moment.minute() % this.minuteRounding;
-      let minuteRounding = _moment.subtract(minuteTail, 'minutes').set('second', 0);
-      if (minuteTail > this.minuteRounding / 2)
-        return minuteRounding;
-      else
-        return minuteRounding.add(this.minuteRounding)
+      return _moment.subtract(minuteTail, 'minutes').set('second', 0);
     }
   }
 
