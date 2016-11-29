@@ -1,16 +1,23 @@
-# Ion-Multi-Picker 
+# Ion2-datetime-picker
 
 
-[![Dependency Status](https://david-dm.org/raychenfj/ion-multi-picker.svg)](https://david-dm.org/raychenfj/ion-multi-picker) [![devDependencies Status](https://david-dm.org/raychenfj/ion-multi-picker/dev-status.svg)](https://david-dm.org/raychenfj/ion-multi-picker?type=dev) [![npm version](https://badge.fury.io/js/ion-multi-picker.svg)](https://badge.fury.io/js/ion-multi-picker) [![npm download](https://img.shields.io/npm/dm/ion-multi-picker.svg)](https://www.npmjs.com/package/ion-multi-picker)
+[![Dependency Status](https://david-dm.org/byzg/ion2-datetime-picker.svg)](https://david-dm.org/byzg/ion2-datetime-picker) [![devDependencies Status](https://david-dm.org/byzg/ion2-datetime-picker/dev-status.svg)](https://david-dm.org/byzg/ion2-datetime-picker?type=dev) [![npm version](https://badge.fury.io/js/ion2-datetime-picker.svg)](https://badge.fury.io/js/ion2-datetime-picker) [![npm download](https://img.shields.io/npm/dm/ion2-datetime-picker.svg)](https://www.npmjs.com/package/ion2-datetime-picker)
 
 
-Ion Multi Item Picker--An Ionic2 Custom Picker Component
+Ion2 Datetime Picker--An Ionic2 Custom Picker Component based on 
+[ion-multi-picker](https://github.com/raychenfj/ion-multi-picker) by [raychenfj](https://github.com/raychenfj)
 
-Simulate IOS multi column picker by ionic2 picker.
+Simulate IOS date and time column pickers by ionic2 picker. Default 
+[Ionic DateTime Component](http://ionicframework.com/docs/v2/api/components/datetime/DateTime/) work with 
+only independent columns that has some validation problems. Also there is 
+[min and max issue](https://github.com/driftyco/ionic/issues/6850) with time validation.
+This one helps to solve these problems.
 
-Github: [https://github.com/raychenfj/ion-multi-picker](https://github.com/raychenfj/ion-multi-picker)
+**Note: [MomentJS](http://momentjs.com/) requred**
 
-NPM: [https://www.npmjs.com/package/ion-multi-picker](https://www.npmjs.com/package/ion-multi-picker)
+Github: [https://github.com/byzg/ion2-datetime-picker](https://github.com/byzg/ion2-datetime-picker)
+
+NPM: [https://www.npmjs.com/package/ion2-datetime-picker](https://www.npmjs.com/package/ion2-datetime-picker)
 
 ## Preview
 ### Picker with Independent/ Dependent Columns
@@ -21,11 +28,11 @@ NPM: [https://www.npmjs.com/package/ion-multi-picker](https://www.npmjs.com/pack
 ## Demo
 Check out the live demo here: [https://raychenfj.github.io/ion-multi-picker/](https://raychenfj.github.io/ion-multi-picker/)
 
-## Supported Version
+<!---## Supported Version
 
 Ionic2 2.0.0-rc.3
 
-Ionic CLI 2.1.12
+Ionic CLI 2.1.12 -->
 
 
 ## Installation
@@ -62,129 +69,48 @@ import { MultiPickerModule } from 'ion-multi-picker';
 })
 export class AppModule {}
 ```
-2.Initialize picker columns in your controller.
-```typescript
-constructor(private navCtrl: NavController) {
-	this.simpleColumns = [
-		{
-			name: 'col1',
-			options: [{ text: '1', value: '1' },
-				{ text: '2', value: '2' },
-				{ text: '3', value: '3' }]
-		},
-		{
-			name: 'col2',
-			options: [{ text: '1-1', value: '1-1' },
-				{ text: '1-2', value: '1-2' },
-				{ text: '2-1', value: '2-1' },
-				{ text: '2-2', value: '2-2' },
-				{ text: '3-1', value: '3-1' },]
-		},
-		{
-			name: 'col3',
-			options: [{ text: '1-1-1', value: '1-1-1' },
-				{ text: '1-1-2', value: '1-1-2' },
-				{ text: '1-2-1', value: '1-2-1' },
-				{ text: '1-2-2', value: '1-2-2' },
-				{ text: '2-1-1', value: '2-1-1' },
-				{ text: '2-1-2', value: '2-1-2' },
-				{ text: '2-2-1', value: '2-2-1' },
-				{ text: '2-2-2', value: '2-2-2' },
-				{ text: '3-1-1', value: '3-1-1' },
-				{ text: '3-1-2', value: '3-1-2' },]
-		}
-	];
-}
-```
-You can use `parentVal` property to create dependency between each column.
-```typescript
-	this.dependentColumns = [
-		{
-			options: [{ text: '1', value: '1' },
-				{ text: '2', value: '2' },
-				{ text: '3', value: '3' }]
-		},
-		{
-			options: [{ text: '1-1', value: '1-1', parentVal: '1' },
-				{ text: '1-2', value: '1-2', parentVal: '1' },
-				{ text: '2-1', value: '2-1', parentVal: '2' },
-				{ text: '2-2', value: '2-2', parentVal: '2' },
-				{ text: '3-1', value: '3-1', parentVal: '3' },]
-		}];
-```
-3.Add ion-multi-picker to your html template. 
+2.Add ion-multi-picker to your html template. 
 
 ```html
     <ion-item>
-        <ion-label>Simple Picker</ion-label>
-        <ion-multi-picker item-content [multiPickerColumns]="simpleColumns"></ion-multi-picker>
+        <ion-label>Simple TimePicker</ion-label>
+        <ion-multi-picker item-content></ion-multi-picker>
     </ion-item>
 ```
 **Note: Don't miss the `item-content` attribute**
 
-Like other ionic components, you can use `(ngModel)]` to bind your data.
+Like other ionic components, you can use `[formControl]` to bind your data.
+
+```typescript
+import { FormBuilder, FormGroup } from '@angular/forms';
+...
+constructor() {
+  this.formGroup = new FormBuilder().group({
+    time: [moment().format()]
+  });
+}
+```
 
 ```html
 	<ion-item>
         <ion-label>Default Value</ion-label>
-        <ion-multi-picker id="default" [(ngModel)] = "default" item-content [multiPickerColumns]="dependentColumns"></ion-multi-picker>
+        <ion-multi-picker item-content [formControl]="formGroup.controls.time"></ion-multi-picker>
     </ion-item>
 ```
 
-Set `disabled` to `true` to prevent interaction.
+Set `type` to `date` to use datepicker.
 
 ```html
     <ion-item>
         <ion-label>Disabled Picker</ion-label>
-        <ion-multi-picker item-content [multiPickerColumns]="dependentColumns" [disabled]="true"></ion-multi-picker>
+        <ion-multi-picker item-content type="date" [formControl]="formGroup.controls.date"></ion-multi-picker>
     </ion-item>
 ```
 
-## New Feature, Support Enum
-
-It's a good case to use picker to choose value for an enum variable. 
-
-This componennt now provide a shorthand util function `convertEnumToColumns` to generate column from enum type,
-and also you can bind a enum variable to `ngModel`. 
-
-Check the example fruit picker in the demo.
-
-1. Use `convertEnumToColumns` to generate columns;
-
-```typescript
-import { convertEnumToColumn } from 'ion-multi-picker';
-
-enum Fruit {
-  Apple, Orange, Melon, Banana, Pear,
-}
-
-export class YourPage {
-  fruits: any[];
-  fruit: Fruit;
-  Fruit;
-
-  constructor(public navCtrl: NavController) {
-    // Using enum
-	this.fruit = Fruit.Melon;
-	this.Fruit = Fruit;
-	this.fruits = convertEnumToColumn(this.Fruit);
-  }
-}
-```
-
-2. Binding enum variable to `ngModel`;
-```html
-<ion-item>
-	<ion-label>Fruit Picker</ion-label>
-	<ion-multi-picker id="fruit" [(ngModel)]="fruit" item-content [multiPickerColumns]="fruits"></ion-multi-picker>
-</ion-item>
-```
-
-
 ## Attributes
-| Attribute | Description | Type | Options | Default|
+| Attribute | Description | Required | Type | Options | Default|
 |-----------|-------------|------|---------|--------|
-|multiPickerColumns| **Required**, configure multi picker columns | Array of  MultiPickerColumn| - | - |
+|type| **Required**, configure multi picker columns | Array of  MultiPickerColumn| - | - |
 |item-content|**Required**, add this attribute so that this custom component can be display correctly under `ion-item` tag| - | - | - |
 
 ## Types
