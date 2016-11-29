@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { PickerColumn } from 'ionic-angular';
 
-import { MultiPickerColumn } from './multi-picker-options';
+import { MultiPickerColumn } from './multi-picker-columns';
 import { MultiPickerColumnDays } from './columns/days';
 
 export interface IMultiPickerTypeDateColumns {
@@ -12,13 +12,14 @@ export interface IMultiPickerTypeDateColumns {
 
 export interface IMultiPickerTypeTimeColumns {
   hoursCol: MultiPickerColumn,
-  minutesCol: MultiPickerColumn
+  minutesCol: MultiPickerColumn,
+  noon?: MultiPickerColumn
 }
 
 export class MultiPickerType {
   protected _columns: IMultiPickerTypeDateColumns |  IMultiPickerTypeTimeColumns;
 
-  get(): IMultiPickerTypeDateColumns |  IMultiPickerTypeTimeColumns {
+  columns(): IMultiPickerTypeDateColumns |  IMultiPickerTypeTimeColumns {
     return this._columns
   }
 
@@ -27,6 +28,10 @@ export class MultiPickerType {
       _.map(columns, (col, index) => col.options[col.selectedIndex].disabled)
     );
     button.cssRole = isSomeDisabled ? 'hide' : '';
+  }
+
+  protected generateOptions(): void {
+    _.each(this._columns, (column)=> column.generateOptions())
   }
 
   protected someSelectedIndexBlank(columns: PickerColumn[]): boolean {

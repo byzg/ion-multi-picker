@@ -13,7 +13,8 @@ export class AdvancedExamplePage {
     date: [moment().format()],
     time: [moment().format()],
     timeRounded: [moment().format()],
-    minTime: [moment('09:00', 'HH:mm').format()],
+    time12: [moment().format()],
+    minTime: [moment('09:10', 'HH:mm').format()],
     maxTime: [moment('10:40', 'HH:mm').format()]
   });
 	constructor(private navCtrl: NavController) {

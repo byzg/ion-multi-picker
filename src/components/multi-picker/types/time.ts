@@ -1,24 +1,29 @@
 import moment from 'moment';
+import _ from 'lodash';
 import { PickerColumn } from 'ionic-angular';
 
+import { MultiPickerColumn, IColumnFormat } from '../multi-picker-columns';
 import { MultiPickerType, IMultiPickerTypeTimeColumns } from '../multi-picker-types';
 import { MultiPickerColumnMinutes } from '../columns/minutes';
 import { MultiPickerColumnHours } from '../columns/hours';
-
+import { MultiPickerColumnNoon } from '../columns/noon';
 
 export class MultiPickerTypeTime extends MultiPickerType{
   protected _columns: IMultiPickerTypeTimeColumns;
   private min: moment.Moment;
   private max: moment.Moment;
   private minuteRounding: number;
+  private format: IColumnFormat = MultiPickerColumn.defaultFormat;
   constructor(cmpAttrs) {
     super();
     [this.min, this.max, this.minuteRounding] = [moment(cmpAttrs.min), moment(cmpAttrs.max), parseInt(cmpAttrs.minuteRounding)];
-    let [minMinute, maxMinute] = this.max.hour() > this.min.hour() ? [0, 59] : [this.min.minute(), this.max.minute()];
+    this.parseFormat(cmpAttrs.format);
     this._columns = {
-      hoursCol: new MultiPickerColumnHours('hour', this.min.hour(), this.max.hour()),
-      minutesCol: new MultiPickerColumnMinutes('minute', minMinute, maxMinute, this.min, this.max, this.minuteRounding),
+      hoursCol: new MultiPickerColumnHours({min: this.min, max: this.max, format: this.format}),
+      minutesCol: new MultiPickerColumnMinutes({min: this.min, max: this.max, step: this.minuteRounding})
     };
+    if (this.format.is12) this._columns.noon = new MultiPickerColumnNoon({format: this.format});
+    this.generateOptions()
   }
 
   validate(columns: PickerColumn[]) {
@@ -36,4 +41,15 @@ export class MultiPickerTypeTime extends MultiPickerType{
   }
 
   dealDoneVisibleBnt(columns: PickerColumn[], button): void {}
+
+  private parseFormat(pattern: string): void {
+    _.extend(this.format, {
+      pattern: pattern,
+      is12: pattern.includes('h'),
+    });
+    if (this.format.is12) {
+      if (pattern.includes('A')) this.format.noons = this.format.noons.map(_.upperCase);
+      this.format.hours = 12
+    }
+  }
 }

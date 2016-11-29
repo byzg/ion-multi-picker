@@ -1,30 +1,32 @@
 import _ from 'lodash';
 
-import { MultiPickerColumn, IMultiPickerColumn } from '../multi-picker-options';
+import { MultiPickerColumn, IColumnAttrs } from '../multi-picker-columns';
 
-export class MultiPickerColumnDays extends MultiPickerColumn implements IMultiPickerColumn {
+interface IColumnDaysAttrs extends IColumnAttrs {
+  weekends: string|Array<string|number>;
+  customFilterDays: Function;
+}
+
+export class MultiPickerColumnDays extends MultiPickerColumn {
+  name = 'day';
+  lastOptionValue = 31;
+
   weekends: Array<number>;
   customFilterDays: Function;
   existingDates: Object = {};
 
-  constructor(
-    public name: string,
-    protected firstOptionValue: number,
-    protected lastOptionValue: number,
-    customFilterDays: Function,
-    weekends: string|Array<string|number>
-  ) {
-    super(name, firstOptionValue, lastOptionValue);
+  constructor(attrs: IColumnDaysAttrs) {
+    super(attrs);
     this.customFilterDays = (month: number, year: number): MultiPickerColumnDays => {
       let days = this.values;
-      this.options = super.toOptions((customFilterDays || _.identity)(days, month, year));
+      this.options = super.toOptions((attrs.customFilterDays || _.identity)(days, month, year));
       return this
     };
 
-    if (typeof(weekends) == 'string')
-      this.weekends = _.split(<string>weekends, /[\,\s]/g).map(weekend => parseInt(weekend));
-    else if (weekends instanceof Array)
-      this.weekends = _.map(weekends, weekend => parseInt(<string>weekend));
+    if (typeof(attrs.weekends) == 'string')
+      this.weekends = _.split(<string>attrs.weekends, /[\,\s]/g).map(weekend => parseInt(weekend));
+    else if (this.weekends instanceof Array)
+      this.weekends = _.map(this.weekends, weekend => typeof(weekend) == 'number' ? weekend : parseInt(weekend));
     else
       this.weekends = []
   }
@@ -35,7 +37,7 @@ export class MultiPickerColumnDays extends MultiPickerColumn implements IMultiPi
 
   filterDays(month: number, year: number): MultiPickerColumnDays {
     if (!this.existingDates[year] || ! this.existingDates[year][month]) {
-      this.initOptions();
+      this.generateOptions();
       let lastMonthDay = super.toMoment(year, month, 1).endOf('month').date();
       let days = this.values;
       this.existingDates[year] = this.existingDates[year] || {};
@@ -52,5 +54,9 @@ export class MultiPickerColumnDays extends MultiPickerColumn implements IMultiPi
         return !_.includes(this.weekends, super.toMoment(year, month, day).weekday())
       }));
     return this
+  }
+
+  selectedOptionIndex(datetime: string): number {
+    return super.selectedOptionIndex(datetime, 'date')
   }
 }

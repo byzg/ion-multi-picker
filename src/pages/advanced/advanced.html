@@ -12,7 +12,7 @@
       <ion-label>Advanced DatePicker</ion-label>
       <ion-multi-picker  item-content type="date"
                          [filterDays]="filterDays" [formControl]="formGroup.controls.date"
-                         [weekends]='[6,7]' [displayFormat]="'DD.MM.YYYY'">
+                         [weekends]='[6,7]' [displayFormat]="'MM.DD.YYYY'">
       </ion-multi-picker>
     </ion-item>
     <pre>
@@ -21,7 +21,7 @@
           &lt;ion-label&gt;Advanced Picker&lt;/ion-label&gt;
           &lt;ion-multi-picker  item-content type="date"
                              [filterDays]="filterDays" [formControl]="formGroup.controls.date"
-                             [weekends]='[6,7]' [displayFormat]="'DD.MM.YYYY'"&gt;
+                             [weekends]='[6,7]' [displayFormat]="'MM.DD.YYYY'"&gt;
           &lt;/ion-multi-picker&gt;
         &lt;/ion-item&gt;
       &lt;/form&gt;
@@ -67,6 +67,20 @@
       &lt;/ion-multi-picker&gt;
     </pre>
     <pre>formGroup.controls.timeRounded.value = {{formGroup.controls.timeRounded.value}}</pre>
+
+    <hr>
+    <ion-item>
+      <ion-label>TimePicker with 12-hours format</ion-label>
+      <ion-multi-picker item-content displayFormat="hh:mm A"
+                        [formControl]="formGroup.controls.time12">
+      </ion-multi-picker>
+    </ion-item>
+    <pre>
+        &lt;ion-multi-picker item-content displayFormat="hh:mm A"
+                          [formControl]="formGroup.controls.time12"&gt;
+        &lt;/ion-multi-picker&gt;
+      </pre>
+    <pre>formGroup.controls.timeRounded.value = {{formGroup.controls.time12.value}}</pre>
   </form>
 
 </ion-content>

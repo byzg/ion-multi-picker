@@ -2,21 +2,21 @@ import moment from 'moment';
 import _ from 'lodash';
 import { PickerColumn } from 'ionic-angular';
 
-import { MultiPicker } from '../multi-picker';
 import { MultiPickerType, IMultiPickerTypeDateColumns } from '../multi-picker-types';
-import { MultiPickerColumn } from '../multi-picker-options';
 import { MultiPickerColumnDays } from '../columns/days';
+import { MultiPickerColumnMonths } from '../columns/months';
+import { MultiPickerColumnYears } from '../columns/years';
 
 export class MultiPickerTypeDate extends MultiPickerType{
   protected _columns: IMultiPickerTypeDateColumns;
   constructor(cmpAttrs) {
     super();
-    const currentYear = moment().year();
     this._columns = {
-      daysCol: new MultiPickerColumnDays('day', 1, 31, cmpAttrs.customFilterDays, cmpAttrs.weekends),
-      monthsCol: new MultiPickerColumn('month', 1, 12),
-      yearsCol: new MultiPickerColumn('year', currentYear - MultiPicker.YEAR_ROUND, currentYear + MultiPicker.YEAR_ROUND)
+      daysCol: new MultiPickerColumnDays({customFilterDays: cmpAttrs.customFilterDays, weekends: cmpAttrs.weekends}),
+      monthsCol: new MultiPickerColumnMonths({}),
+      yearsCol: new MultiPickerColumnYears({})
     };
+    this.generateOptions()
   }
 
   validate(columns: PickerColumn[]) {
