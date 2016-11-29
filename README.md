@@ -43,7 +43,7 @@ npm install ion-multi-picker --save
 ## Usage
 1.Import MultiPickerModule to your app/module.
 ```Typescript
-import { MultiPickerModule } from 'ion-multi-picker';
+import { MultiPickerModule } from 'ion2-datetime-picker';
 
 @NgModule({
   declarations: [
