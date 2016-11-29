@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { MultiPickerColumn, IColumnAttrs } from '../multi-picker-columns';
 
-interface IColumnDaysAttrs extends IColumnAttrs {
+export interface IColumnDaysAttrs extends IColumnAttrs {
   weekends: string|Array<string|number>;
   customFilterDays: Function;
 }
