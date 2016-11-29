@@ -13,12 +13,12 @@ only independent columns that has some validation problems. Also there is
 [min and max issue](https://github.com/driftyco/ionic/issues/6850) with time validation.
 This one helps to solve these problems.
 
-**Note: [MomentJS](http://momentjs.com/) requred**
+**Note: [MomentJS](http://momentjs.com/) requred for using some features of the package**
 
 Github: [https://github.com/byzg/ion2-datetime-picker](https://github.com/byzg/ion2-datetime-picker)
 
 NPM: [https://www.npmjs.com/package/ion2-datetime-picker](https://www.npmjs.com/package/ion2-datetime-picker)
-
+<!---
 ## Preview
 ### Picker with Independent/ Dependent Columns
 
@@ -28,7 +28,7 @@ NPM: [https://www.npmjs.com/package/ion2-datetime-picker](https://www.npmjs.com/
 ## Demo
 Check out the live demo here: [https://raychenfj.github.io/ion-multi-picker/](https://raychenfj.github.io/ion-multi-picker/)
 
-<!---## Supported Version
+## Supported Version
 
 Ionic2 2.0.0-rc.3
 
@@ -108,29 +108,19 @@ Set `type` to `date` to use datepicker.
 ```
 
 ## Attributes
-| Attribute | Description | Required | Type | Options | Default|
-|-----------|-------------|------|---------|--------|
-|type| **Required**, configure multi picker columns | Array of  MultiPickerColumn| - | - |
-|item-content|**Required**, add this attribute so that this custom component can be display correctly under `ion-item` tag| - | - | - |
-
-## Types
-
-* **MultiPickerColumn**
-
-| Property | Description | Type | Options | Default|
-|-----------|-------------|------|---------|--------|
-|options| **Required**, Options in a column | Array of MultiPickerOption | - | - |
-|name| Optional, Column name | String | - | index start from 0 |
-
-* **MultiPickerOption**
-
-| Property | Description | Type | Options | Default|
-|-----------|-------------|------|---------|--------|
-|text| **Required**, text displayed in the picker column|String|-|-|
-|value|**Required**, the associated value of the text|String|-|-|
-|parentVal|Optional, specify the dependency between current column and previous column|String|Value from your previos column|-|
-|disabled|Optional, the option is visible or not| Boolean|-| false|
-
+ 
+| Attribute | Description | Data type | Values | Picker type | Default|
+|-----------|-------------|-----------|--------|-------------|--------|
+|item-content|**Required**, add this attribute so that this custom component can be display correctly under `ion-item` tag|  - | - | all | - |
+|type| Sets waht to use: date- or timepicker | String | date or time| - | time |
+|displayFormat| Format of picked data | String | [moment formats](http://momentjs.com/docs/#/displaying/format/) | time | HH:mm |
+||||| date | DD.MM.YYYY |
+| min | Validation minimum attribute | ISO 8601 String or moment.Moment |  | time | Beginning of the year, which precedes the current 2 years |
+| max | Validation maximum attribute | ISO 8601 String or moment.Moment | | time | End of the year that follows the current 2 years |
+| cancelText | Text of picker cancel button | String |  | all | Cancel |
+| doneText | Text of picker done button | String | | all | Done |
+| weekends | Numbers of days of week that should be disabled on datepicker | String or Array of string | E.g.: ['6', '7'] | date | [] |
+| filterDays | Function like (days, month, year)=> that should return array of day numbers that should NOT be disabled in given month and year | Function | E.g.: (days, month, year)=> days | date | Lodash identity |
 
 ## Contribution
 
