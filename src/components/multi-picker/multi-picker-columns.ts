@@ -64,7 +64,7 @@ export class MultiPickerColumn implements IMultiPickerColumn {
     if (datetime) {
       const selectedValue = this.selectedValue(datetime, momentName);
       return _.findIndex(this.options, (option)=> option.value  == selectedValue )
-    }
+    } else return 0
   }
 
   protected selectedValue(datetime: string, momentName: string = this.name): number {
