@@ -6,7 +6,11 @@ import { MultiPickerColumn, IMultiPickerColumn } from '../multi-picker-columns';
 export class MultiPickerColumnHours extends MultiPickerColumn implements IMultiPickerColumn {
   name = 'hour';
   firstOptionValue = this.min.hour();
-  lastOptionValue = _.min([this.max.hour(), this.format.hours - 1]);
+  lastOptionValue = _.min([this.maxHour(), this.format.hours - 1]);
+
+  maxHour(): number {
+    return this.max.isAfter(this.min.clone().endOf('day'), 'days') ? this.format.hours - 1 : this.max.hour()
+  }
 
   protected optionText(num: number): string {
     return _.padStart(`${this.zeroOrTwelve(num)}`, 2, '0')

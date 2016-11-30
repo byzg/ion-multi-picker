@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import { MultiPickerColumn, IMultiPickerColumn, IColumnAttrs } from '../multi-picker-columns';
+import { MultiPickerColumnHours } from './hours';
 
 export class MultiPickerColumnMinutes extends MultiPickerColumn implements IMultiPickerColumn {
   name = 'minute';
@@ -9,8 +10,8 @@ export class MultiPickerColumnMinutes extends MultiPickerColumn implements IMult
   existingMinutes: Object = {};
   minHour: number = this.min.hour();
   minMinute: number = this.min.minute();
-  maxHour: number = this.max.hour();
-  maxMinute: number = this.max.minute();
+  maxHour: number = new MultiPickerColumnHours({max: this.max, min: this.min}).maxHour();
+  maxMinute: number = this.calcMaxMinute();
 
   constructor(attrs: IColumnAttrs) {
     super(attrs);
@@ -51,5 +52,9 @@ export class MultiPickerColumnMinutes extends MultiPickerColumn implements IMult
 
   protected optionText(num: number): string {
     return _.padStart(`${num}`, 2, '0')
+  }
+
+  private calcMaxMinute(): number {
+    return this.max.isAfter(this.min.clone().endOf('day'), 'days') ? 59 : this.max.minute()
   }
 }
