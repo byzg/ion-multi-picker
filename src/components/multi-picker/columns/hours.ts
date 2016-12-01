@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { MultiPickerColumn, IMultiPickerColumn, IColumnAttrs } from '../multi-picker-columns';
+import { MultiPickerColumn, IMultiPickerColumn } from '../multi-picker-columns';
 
 export class MultiPickerColumnHours extends MultiPickerColumn implements IMultiPickerColumn {
   minHour = this.min.hour();
@@ -19,8 +19,9 @@ export class MultiPickerColumnHours extends MultiPickerColumn implements IMultiP
     if (!this.format.is12) return this;
     if (!this.existingHours[noon]) {
       this.generateOptions();
+      let [min, max] = [_.max([noon * 12, this.minHour]), _.min([(noon + 1) * 12 - 1, this.maxHour])];
       this.existingHours[noon] = _.filter(this.values, (hour)=> {
-        return _.max([noon * 12, this.minHour]) <= hour && hour <= _.min([(noon + 1) * 12, this.maxHour])
+        return min <= hour && hour <= max
       });
       this.existingHours[noon] = super.toOptions(this.existingHours[noon]);
     }

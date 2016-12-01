@@ -40,7 +40,7 @@ export class MultiPickerTypeTime extends MultiPickerType{
     this.disableInvalid(columns, 'minutesCol', 1, [hour]);
     if (this.format.is12) {
       let noon = columns[2].options[columns[2].selectedIndex].value;
-      this.disableInvalid(columns, 'hoursCol', 0, [noon])
+      this.disableInvalid(columns, 'hoursCol', 0, [noon]);
     }
   }
 
