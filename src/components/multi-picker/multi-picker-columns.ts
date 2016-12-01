@@ -79,15 +79,19 @@ export class MultiPickerColumn implements IMultiPickerColumn {
     return this.toOptions(_.range(from, to + 1, this.step))
   }
 
-  protected optionText(num: number): string {
+  protected optionText(num: number, attrs: Object = {}): string {
     return `${num}`
   }
 
-  protected toOption(num: number, extend?: Object): IMultiPickerOption  {
-    return _.extend({ text: this.optionText(num), value: num }, extend || {})
+  protected optionValue(num: number, attrs: Object = {}): number {
+    return num
+  }
+
+  protected toOption(num: number, attrs: Object = {}): IMultiPickerOption  {
+    return _.extend({ text: this.optionText(num, attrs), value: this.optionValue(num, attrs) } || {})
   };
 
-  protected toOptions(nums: Array<number>): Array<IMultiPickerOption>  {
+  protected toOptions(nums: Array<number>, attrs: Object = {}): Array<IMultiPickerOption>  {
     return nums.map(val => { return this.toOption(val) })
   };
 

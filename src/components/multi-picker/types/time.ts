@@ -22,7 +22,7 @@ export class MultiPickerTypeTime extends MultiPickerType{
       hoursCol: new MultiPickerColumnHours({min: this.min, max: this.max, format: this.format}),
       minutesCol: new MultiPickerColumnMinutes({min: this.min, max: this.max, step: this.minuteRounding})
     };
-    if (this.format.is12) this._columns.noon = new MultiPickerColumnNoon({format: this.format});
+    if (this.format.is12) this._columns.noon = new MultiPickerColumnNoon({min: this.min, max: this.max, format: this.format});
     this.generateOptions()
   }
 
@@ -37,7 +37,11 @@ export class MultiPickerTypeTime extends MultiPickerType{
     } else {
       hour = columns[0].options[columns[0].selectedIndex].value;
     }
-    this.disableInvalid(columns, 'minutesCol', 1, [hour])
+    this.disableInvalid(columns, 'minutesCol', 1, [hour]);
+    if (this.format.is12) {
+      let noon = columns[2].options[columns[2].selectedIndex].value;
+      this.disableInvalid(columns, 'hoursCol', 0, [noon])
+    }
   }
 
   dealDoneVisibleBnt(columns: PickerColumn[], button): void {}

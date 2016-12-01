@@ -4,8 +4,8 @@ import { MultiPickerColumn, IMultiPickerColumn } from '../multi-picker-columns';
 
 export class MultiPickerColumnNoon extends MultiPickerColumn implements IMultiPickerColumn {
   name = 'noon';
-  firstOptionValue = 0;
-  lastOptionValue = 1;
+  firstOptionValue = this.min.hour() > 11 ? 1 : 0;
+  lastOptionValue = this.max.hour() > 11 ? 1 : 0;
 
   selectedOptionIndex(datetime: string, momentName: string = this.name): number {
     if (datetime) {

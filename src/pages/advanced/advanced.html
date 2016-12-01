@@ -72,6 +72,7 @@
     <ion-item>
       <ion-label>TimePicker with 12-hours format</ion-label>
       <ion-multi-picker item-content displayFormat="hh:mm A"
+                        [min]="formGroup.controls.minTime.value" [max]="formGroup.controls.maxTime.value"
                         [formControl]="formGroup.controls.time12">
       </ion-multi-picker>
     </ion-item>

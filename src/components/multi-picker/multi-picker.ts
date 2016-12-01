@@ -231,7 +231,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
 
   convertLimits(): void {
     this.min = moment(this.min);
-    this.max = moment(this.max);
+    this.max = moment.min(this.min.clone().endOf('day'), moment(this.max));
   }
 
   divyColumns(picker: Picker) {
