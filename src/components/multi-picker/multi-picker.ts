@@ -344,8 +344,6 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     let newMomentObj: {month?: number, hour?: number, noon?: number} = {};
     _.each(newData, (timepart, name)=> newMomentObj[name] = timepart.value );
     if (newMomentObj.month) newMomentObj.month = newMomentObj.month - 1;
-    if (_.isNumber(newMomentObj.hour))
-      newMomentObj.hour = this.multiPickerTypes['format'].toISO(newMomentObj.hour, newMomentObj.noon);
     return _.isEmpty(newMomentObj) ? '' : moment(newMomentObj).format();
   }
 }

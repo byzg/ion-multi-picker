@@ -12,8 +12,7 @@ export interface IColumnFormat {
   pattern: string,
   is12: boolean,
   noons: Array<string>,
-  hours: number,
-  toISO: Function
+  hours: number
 }
 
 export interface IColumnAttrs {
@@ -37,10 +36,6 @@ export class MultiPickerColumn implements IMultiPickerColumn {
       is12: false,
       noons: ['am', 'pm'],
       hours: 24,
-      toISO: function (hour: number, noon: number): number {
-        if (!noon || !this.is12) return hour;
-        return hour + noon * 12
-      }
     }
   };
   name: string;
@@ -79,19 +74,15 @@ export class MultiPickerColumn implements IMultiPickerColumn {
     return this.toOptions(_.range(from, to + 1, this.step))
   }
 
-  protected optionText(num: number, attrs: Object = {}): string {
+  protected optionText(num: number): string {
     return `${num}`
   }
 
-  protected optionValue(num: number, attrs: Object = {}): number {
-    return num
-  }
-
-  protected toOption(num: number, attrs: Object = {}): IMultiPickerOption  {
-    return _.extend({ text: this.optionText(num, attrs), value: this.optionValue(num, attrs) } || {})
+  protected toOption(num: number): IMultiPickerOption  {
+    return _.extend({ text: this.optionText(num), value: num } || {})
   };
 
-  protected toOptions(nums: Array<number>, attrs: Object = {}): Array<IMultiPickerOption>  {
+  protected toOptions(nums: Array<number>): Array<IMultiPickerOption>  {
     return nums.map(val => { return this.toOption(val) })
   };
 
