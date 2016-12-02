@@ -49,7 +49,7 @@ export class MultiPickerType {
 
   protected disableInvalid(columns: PickerColumn[], colName: string, pickerColIndex: number, rest: Array<number>): void {
     let allowed = this._columns[colName].filter(...rest);
-    _(columns[pickerColIndex].options).each(option => {
+    _(columns[pickerColIndex].options).each((option) => {
       option.disabled = !_(allowed).includes(option.value);
     });
   }

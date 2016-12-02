@@ -163,6 +163,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
 
     this.generate(picker);
     this.validateColumns(picker);
+    if (!this._value) this.setSelectedIndexes(picker);
 
     picker.ionChange.subscribe(() => {
       this.validateColumns(picker);
@@ -227,6 +228,13 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
           this.onChange(changingValueCandidate);
       }
     }
+  }
+
+  setSelectedIndexes(picker: Picker): void {
+    let pickerColumns = picker.getColumns();
+    _.each(pickerColumns, (column) => {
+      column.selectedIndex = _.findIndex(column.options, (option)=> !option.disabled)
+    });
   }
 
   convertLimits(): void {
