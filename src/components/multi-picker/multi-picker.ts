@@ -230,7 +230,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
           this.onChange('');
         else if (this.minuteRounding != 1) {
           this.onChange(changingValueCandidate);
-          this.formControl.markAsPristine();
+          if (this.formControl) this.formControl.markAsPristine();
         }
       }
     }
