@@ -344,8 +344,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
   }
 
   momentToChangingValue(moment) {
-    const fields = this.type == 'date' ? ['years', 'months', 'days'] : ['minutes', 'hours'];
-    return _.mapValues(_.pick(moment.toObject(), fields), (timepart)=> { return { value: timepart } })
+    return _.mapValues(moment.toObject(), (timepart)=> { return { value: timepart } })
   }
 
   /**
