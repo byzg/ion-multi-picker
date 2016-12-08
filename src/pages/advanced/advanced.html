@@ -60,6 +60,8 @@
                         [formControl]="formGroup.controls.timeRounded">
       </ion-multi-picker>
     </ion-item>
+    <div style="color: red" *ngIf="formGroup.controls.timeRounded.dirty">Dirty</div>
+    <div style="color: green" *ngIf="formGroup.controls.timeRounded.pristine">Pristine</div>
     <pre>
       &lt;ion-multi-picker item-content
                         minuteRounding='15'

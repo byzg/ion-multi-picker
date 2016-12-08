@@ -1,5 +1,5 @@
 import { AfterContentInit, Component, EventEmitter, forwardRef, HostListener, Input, OnDestroy, Optional, Output, ViewEncapsulation, OnInit } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
 import { Picker, PickerController, Form, Item } from 'ionic-angular';
 import _ from 'lodash';
 import moment from 'moment';
@@ -77,6 +77,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
   /**
    * @input
    */
+  @Input() formControl: FormControl;
   @Input('filterDays') customFilterDays: Function;
   @Input() weekends: string|string[];
   @Input() type: string = 'time';
@@ -227,8 +228,10 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
         const changingValueCandidate = this.momentToChangingValue(minuteColumn.round(this._value));
         if (!_(minuteColumn.filter(valueMoment.hour())).includes(changingValueCandidate['minutes'].value))
           this.onChange('');
-        else if (this.minuteRounding != 1)
+        else if (this.minuteRounding != 1) {
           this.onChange(changingValueCandidate);
+          this.formControl.markAsPristine();
+        }
       }
     }
   }
