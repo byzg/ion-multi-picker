@@ -207,6 +207,9 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
 
   validateColumns(picker: Picker) {
     let columns = picker.getColumns();
+    _.each(this.multiPickerTypes.columns(), (column)=> {
+      if (!column.options.length) this.throw(`column "${column.name}" should have at least one option`)
+    });
     this.multiPickerTypes.validate(columns);
     this.multiPickerTypes.dealDoneVisibleBnt(columns, picker.data.buttons[1]);
 
@@ -353,5 +356,9 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     _.each(newData, (timepart, name)=> newMomentObj[name] = timepart.value );
     if (newMomentObj.month) newMomentObj.month = newMomentObj.month - 1;
     return _.isEmpty(newMomentObj) ? '' : moment(newMomentObj).format();
+  }
+
+  throw(msg): void {
+    throw `Ion2 datetime picker: ${msg}`
   }
 }

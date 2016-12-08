@@ -123,6 +123,11 @@ Set `type` to `date` to use datepicker.
 | weekends | Numbers of days of week that should be disabled on datepicker | String or Array of string | E.g.: ['6', '7'] | date | [] |
 | filterDays | Function like (days, month, year)=> that should return array of day numbers that should NOT be disabled in given month and year | Function | E.g.: (days, month, year)=> days | date | Lodash identity |
 
+## Exceptions
+If for some reason, all the possible
+ values of the column are non-valid, this exception is raised: 
+* `Ion2 datetime picker: column "<column.name> " should have at least one option` - 
+
 ## Contribution
 
 Welcome issue report, PR and contributors. Help me improve it.
