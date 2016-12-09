@@ -4,7 +4,7 @@ import moment from 'moment';
 import { MultiPickerColumn, IMultiPickerColumn, IColumnAttrs } from '../multi-picker-columns';
 
 export class MultiPickerColumnMinutes extends MultiPickerColumn implements IMultiPickerColumn {
-  name = 'minute';
+  name = 'minutes';
 
   existingMinutes: Object = {};
   minHour: number = this.min.hour();

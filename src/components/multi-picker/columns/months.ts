@@ -1,7 +1,7 @@
 import { MultiPickerColumn, IMultiPickerColumn } from '../multi-picker-columns';
 
 export class MultiPickerColumnMonths extends MultiPickerColumn implements IMultiPickerColumn {
-  name = 'month';
+  name = 'months';
   lastOptionValue = 12;
 
   selectedOptionIndex(datetime: string, momentName: string = this.name): number {

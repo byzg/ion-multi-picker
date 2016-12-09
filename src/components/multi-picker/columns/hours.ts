@@ -7,7 +7,7 @@ export class MultiPickerColumnHours extends MultiPickerColumn implements IMultiP
   maxHour = this.max.hour();
   existingHours: Object = {};
 
-  name = 'hour';
+  name = 'hours';
   firstOptionValue = this.minHour;
   lastOptionValue =  this.maxHour;
 

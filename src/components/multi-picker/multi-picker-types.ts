@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import { PickerColumn } from 'ionic-angular';
 
 import { MultiPickerColumn } from './multi-picker-columns';
@@ -16,7 +17,16 @@ export interface IMultiPickerTypeTimeColumns {
   noon?: MultiPickerColumn
 }
 
-export class MultiPickerType {
+export interface IMomentObject {
+  years?: number,
+  months?: number,
+  date?: number,
+  hours?: number,
+  minutes?: number,
+  noon?: number
+}
+
+export abstract class MultiPickerType {
   protected _columns: IMultiPickerTypeDateColumns |  IMultiPickerTypeTimeColumns;
 
   columns(): IMultiPickerTypeDateColumns |  IMultiPickerTypeTimeColumns {
@@ -30,6 +40,25 @@ export class MultiPickerType {
     button.cssRole = isSomeDisabled ? 'hide' : '';
   }
 
+  setDefaultSelectedIndexes(columns: PickerColumn[], pickerValue: string): void {
+    let defaultMoment = this.defaultMoment(pickerValue);
+    _(columns).each((col) => {
+      let index =  _.map(col.options, 'value').indexOf(defaultMoment[col.name]);
+      col.selectedIndex = index < 0 ? 0 : index
+    })
+  }
+
+  protected abstract defaultMoment(pickerValue: string): IMomentObject;
+
+  protected currentMoment(columns: PickerColumn[], pickerValue: string): IMomentObject {
+    let currentMoment: IMomentObject = {};
+    if (typeof(pickerValue) == 'string')
+      currentMoment = this.defaultMoment(pickerValue);
+    else
+      columns.forEach(column => currentMoment[column.name] = column.options[column.selectedIndex].value);
+    return currentMoment
+  }
+
   protected generateOptions(): void {
     _.each(this._columns, (column)=> column.generateOptions())
   }
@@ -39,12 +68,6 @@ export class MultiPickerType {
       let isNumber = _.isNumber(col.selectedIndex);
       return !isNumber || isNumber && col.selectedIndex < 0
     }))
-  }
-
-  protected setDefaultSelectedIndexes(columns: PickerColumn[], values: Array<number>): void {
-    _(columns).each((col, i) => {
-      col.selectedIndex = col.selectedIndex || _.findIndex(col.options, (option)=> option['value'] == values[i])
-    })
   }
 
   protected disableInvalid(columns: PickerColumn[], colName: string, pickerColIndex: number, rest: Array<number>): void {

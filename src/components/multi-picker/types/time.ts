@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { PickerColumn } from 'ionic-angular';
 
 import { MultiPickerColumn, IColumnFormat } from '../multi-picker-columns';
-import { MultiPickerType, IMultiPickerTypeTimeColumns } from '../multi-picker-types';
+import { MultiPickerType, IMultiPickerTypeTimeColumns, IMomentObject } from '../multi-picker-types';
 import { MultiPickerColumnMinutes } from '../columns/minutes';
 import { MultiPickerColumnHours } from '../columns/hours';
 import { MultiPickerColumnNoon } from '../columns/noon';
@@ -26,25 +26,28 @@ export class MultiPickerTypeTime extends MultiPickerType{
     this.generateOptions()
   }
 
-  validate(columns: PickerColumn[]) {
-    let hour: number;
-    if (this.someSelectedIndexBlank(columns)) {
-      let _moment: moment.Moment = moment();
-      if (moment({hour: this.min.hour(), minute: this.min.minute()}).isAfter(_moment)) _moment = this.min;
-      if (moment({hour: this.max.hour(), minute: this.max.minute()}).isBefore(_moment)) _moment = this.max;
-      hour = _moment.hour();
-      this.setDefaultSelectedIndexes(columns, [hour, _moment.minute()])
-    } else {
-      hour = columns[0].options[columns[0].selectedIndex].value;
-    }
-    this.disableInvalid(columns, 'minutesCol', 1, [hour]);
-    if (this.format.is12) {
-      let noon = columns[2].options[columns[2].selectedIndex].value;
-      this.disableInvalid(columns, 'hoursCol', 0, [noon]);
-    }
+  validate(columns: PickerColumn[], pickerValue?: string) {
+    let currentMoment: IMomentObject = this.currentMoment(columns, pickerValue);
+    this.disableInvalid(columns, 'minutesCol', 1, [currentMoment.hours]);
+    if (this.format.is12)
+      this.disableInvalid(columns, 'hoursCol', 0, [currentMoment.noon]);
   }
 
   dealDoneVisibleBnt(columns: PickerColumn[], button): void {}
+
+  protected defaultMoment(pickerValue: string): IMomentObject {
+    let defaultMoment: moment.Moment | IMomentObject;
+    const makeLimit = ()=> {
+      if (this.min.isAfter(defaultMoment)) defaultMoment = this.min;
+      if (this.max.isBefore(defaultMoment)) defaultMoment = this.max;
+    };
+    defaultMoment = pickerValue ? moment(pickerValue) : moment();
+    makeLimit();
+    defaultMoment = defaultMoment.toObject();
+    if (this.format.is12)
+      defaultMoment['noon'] = (defaultMoment.hours > 12 ? 1 : 0);
+    return defaultMoment
+  }
 
   private parseFormat(pattern: string): void {
     _.extend(this.format, {

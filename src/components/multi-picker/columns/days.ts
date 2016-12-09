@@ -8,7 +8,7 @@ export interface IColumnDaysAttrs extends IColumnAttrs {
 }
 
 export class MultiPickerColumnDays extends MultiPickerColumn {
-  name = 'day';
+  name = 'date';
   lastOptionValue = 31;
 
   weekends: Array<number>;
