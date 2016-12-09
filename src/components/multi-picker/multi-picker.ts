@@ -43,7 +43,7 @@ export const MULTI_PICKER_VALUE_ACCESSOR: any = {
     '[class.multi-picke-disabled]': '_disabled'
   },
 
-  providers: [MULTI_PICKER_VALUE_ACCESSOR],
+  providers: [MULTI_PICKER_VALUE_ACCESSOR, Form],
   encapsulation: ViewEncapsulation.None,
 })
 
