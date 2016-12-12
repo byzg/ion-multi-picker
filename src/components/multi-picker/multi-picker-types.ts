@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import { PickerColumn } from 'ionic-angular';
 
 import { MultiPickerColumn } from './multi-picker-columns';
@@ -51,7 +52,7 @@ export abstract class MultiPickerType {
 
   protected currentMoment(columns: PickerColumn[], pickerValue: string): IMomentObject {
     let currentMoment: IMomentObject = {};
-    if (typeof(pickerValue) == 'string')
+    if (typeof(pickerValue) == 'string' || moment.isMoment(pickerValue))
       currentMoment = this.defaultMoment(pickerValue);
     else
       columns.forEach(column => currentMoment[column.name] = column.options[column.selectedIndex].value);
