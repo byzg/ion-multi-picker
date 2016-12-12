@@ -1,5 +1,4 @@
-import _ from 'lodash';
-import moment from 'moment';
+import * as _ from 'lodash';
 import { PickerColumn } from 'ionic-angular';
 
 import { MultiPickerColumn } from './multi-picker-columns';

@@ -128,6 +128,18 @@ If for some reason, all the possible
  values of the column are non-valid, this exception is raised: 
 * `Ion2 datetime picker: column "<column.name> " should have at least one option` - 
 
+## Utils
+You can use some utils methods:
+```typescript
+import { MultiPickerUtils } from 'ion2-datetime-picker';
+
+let variable = MultiPickerUtils.minuteRound('2016-12-10T11:32:44+03:00');
+```
+
+| Method | Description |
+|--------|-------------|
+| minuteRound(val: string\|moment.Moment, rounding: number): moment.Moment | Returns nearest from below moment for *val* with minutes that multiple for *rounding* |
+
 ## Contribution
 
 Welcome issue report, PR and contributors. Help me improve it.

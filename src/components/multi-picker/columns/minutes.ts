@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment';
+import { MultiPickerUtils } from '../../../util';
 
 import { MultiPickerColumn, IMultiPickerColumn, IColumnAttrs } from '../multi-picker-columns';
 
@@ -40,13 +41,7 @@ export class MultiPickerColumnMinutes extends MultiPickerColumn implements IMult
   }
 
   round(val: string|moment.Moment): moment.Moment {
-    if (this.minuteRounding == 1)
-      return moment(val);
-    else {
-      const _moment = moment(val);
-      const minuteTail = _moment.minute() % this.minuteRounding;
-      return _moment.subtract(minuteTail, 'minutes').set('second', 0);
-    }
+    return MultiPickerUtils.minuteRound(val, this.minuteRounding)
   }
 
   protected optionText(num: number): string {

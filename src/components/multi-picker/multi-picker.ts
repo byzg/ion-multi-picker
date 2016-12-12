@@ -1,4 +1,5 @@
-import { AfterContentInit, Component, EventEmitter, forwardRef, HostListener, Input, OnDestroy, Optional, Output, ViewEncapsulation, OnInit } from '@angular/core';
+import { AfterContentInit, Component, EventEmitter, forwardRef, HostListener, Input, OnDestroy, Optional, Output,
+         ViewEncapsulation, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
 import { Picker, PickerController, Form, Item } from 'ionic-angular';
 import _ from 'lodash';

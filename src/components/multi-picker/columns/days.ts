@@ -55,8 +55,4 @@ export class MultiPickerColumnDays extends MultiPickerColumn {
       }));
     return this
   }
-
-  selectedOptionIndex(datetime: string): number {
-    return super.selectedOptionIndex(datetime, 'date')
-  }
 }
