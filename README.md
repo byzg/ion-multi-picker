@@ -133,7 +133,7 @@ You can use some utils methods:
 ```typescript
 import { MultiPickerUtils } from 'ion2-datetime-picker';
 
-let variable = MultiPickerUtils.minuteRound('2016-12-10T11:32:44+03:00');
+let variable = MultiPickerUtils.minuteRound('2016-12-10T11:32:44+03:00', 15);
 ```
 
 | Method | Description |
