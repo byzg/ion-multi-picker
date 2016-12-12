@@ -6,8 +6,8 @@ import { MultiPicker } from '../../../src/components/multi-picker/multi-picker';
 
 let comp: MultiPicker;
 let fixture: ComponentFixture<MultiPicker>;
-let de: DebugElement;
-let el: HTMLElement;
+// let de: DebugElement;
+// let el: HTMLElement;
 
 const pickerControllerStub = {
   create: function () {

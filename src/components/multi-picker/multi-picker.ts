@@ -84,6 +84,15 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
   @Input() min: moment.Moment = moment().subtract(MultiPicker.YEAR_ROUND, 'year').startOf('year');
   @Input() max: moment.Moment = moment().add(MultiPicker.YEAR_ROUND, 'year').endOf('year');
   @Input() minuteRounding: string|number = 1;
+  @Input()
+  get disabled() {
+    return this._disabled;
+  }
+  set disabled(val: boolean) {
+    this._disabled = val;
+    this._item && this._item.setElementClass('item-multi-picker-disabled', this._disabled);
+  }
+
   /**
    * @output {any} Any expression to evaluate when the multi picker selection has changed.
    */
@@ -141,7 +150,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
    * Open the picker panel
    * @private
    */
-  private open() {
+  open() {
     this.convertLimits();
     if (this._disabled) return;
 
@@ -179,7 +188,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     });
   }
 
-  private generate(picker: Picker) {
+  generate(picker: Picker) {
     if (this.type == 'date') {
       this.multiPickerType = new MultiPickerTypeDate({
         customFilterDays: this.customFilterDays,
@@ -204,7 +213,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     this.divyColumns(picker);
   }
 
-  private validateColumns(picker: Picker) {
+  validateColumns(picker: Picker) {
     let columns = picker.getColumns();
     _.each(this.multiPickerType.columns(), (column)=> {
       if (!column.options.length) MultiPicker.throw(`column "${column.name}" should have at least one option`)
@@ -220,7 +229,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     picker.refresh();
   }
 
-  private setDateContext(): void {
+  setDateContext(): void {
     this.dateContext = {};
     if (this.type == 'time') {
       let dateContext = _.pick((this._value ? moment(this._value) : moment()).toObject(), ['years', 'months', 'date']);
@@ -229,14 +238,14 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     }
   }
 
-  private convertLimits(): void {
+  convertLimits(): void {
     ['min', 'max'].forEach(limit=> {
       let momentLimit = moment(this[limit]);
       this[limit] = moment(this.dateContext).set({hour: momentLimit.hour(), minute: momentLimit.minute()})
     })
   }
 
-  private divyColumns(picker: Picker) {
+  divyColumns(picker: Picker) {
     let pickerColumns = picker.getColumns();
     let columns: number[] = [];
 
@@ -267,7 +276,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     }
   }
 
-  private setValue(newData: ChangingValue) {
+  setValue(newData: ChangingValue) {
     if(newData=== null || newData === undefined){
       this._value = '';
     }else{
@@ -275,30 +284,17 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     }
   }
 
-  private checkHasValue(inputValue: any) {
+  checkHasValue(inputValue: any) {
     if (this._item) {
       this._item.setElementClass('input-has-value', !!(inputValue && inputValue !== ''));
     }
   }
 
-  private updateText() {
+  updateText() {
     this._text = this._value? moment(this._value).format(this.displayFormat) : '';
   }
 
-  @Input()
-  get disabled() {
-    return this._disabled;
-  }
-
-  set disabled(val: boolean) {
-    this._disabled = val;
-    this._item && this._item.setElementClass('item-multi-picker-disabled', this._disabled);
-  }
-
-  /**
-  * @private convert the Picker ionChange event object data to string
-  */
-  private convertObjectToString(newData: ChangingValue) {
+  convertObjectToString(newData: ChangingValue) {
     let newMomentObj: {months?: number, hour?: number, noon?: number} = {};
     _.each(newData, (timepart, name)=> newMomentObj[name] = timepart.value );
     if (newMomentObj.months) newMomentObj.months = newMomentObj.months - 1;
@@ -306,7 +302,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     return _.isEmpty(newMomentObj) ? '' : moment(newMomentObj).format();
   }
 
-  private static throw(msg): void {
+  static throw(msg): void {
     throw `Ion2 datetime picker: ${msg}`
   }
 
@@ -335,12 +331,12 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     this._form.deregister(this);
   }
 
-  private onChange(val: ChangingValue) {
+  onChange(val: ChangingValue) {
     // onChange used when there is not an formControlName
     this.setValue(this.convertObjectToString(val));
     this.updateText();
     this.onTouched();
   }
 
-  private onTouched() { }
+  onTouched() { }
 }
