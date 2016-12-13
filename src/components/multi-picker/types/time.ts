@@ -2,6 +2,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import { PickerColumn } from 'ionic-angular';
 
+import { MultiPickerUtils } from '../../../util';
 import { MultiPickerColumn, IColumnFormat } from '../multi-picker-columns';
 import { MultiPickerType, IMultiPickerTypeTimeColumns, IMomentObject } from '../multi-picker-types';
 import { MultiPickerColumnMinutes } from '../columns/minutes';
@@ -43,9 +44,10 @@ export class MultiPickerTypeTime extends MultiPickerType{
     };
     defaultMoment = pickerValue ? moment(pickerValue) : moment();
     makeLimit();
+    defaultMoment = MultiPickerUtils.minuteRound(defaultMoment, this.minuteRounding);
     defaultMoment = defaultMoment.toObject();
     if (this.format.is12)
-      defaultMoment['noon'] = (defaultMoment.hours > 12 ? 1 : 0);
+      defaultMoment['noon'] = (defaultMoment.hours >= 12 ? 1 : 0);
     return defaultMoment
   }
 
