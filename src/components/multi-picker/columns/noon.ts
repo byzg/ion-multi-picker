@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 import { MultiPickerColumn, IMultiPickerColumn } from '../multi-picker-columns';
 
 export class MultiPickerColumnNoon extends MultiPickerColumn implements IMultiPickerColumn {

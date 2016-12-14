@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 // import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+// import { DebugElement } from '@angular/core';
 import { PickerController, Form, Item } from 'ionic-angular';
 import { MultiPicker } from '../../../src/components/multi-picker/multi-picker';
 

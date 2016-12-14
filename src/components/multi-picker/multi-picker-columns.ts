@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import moment from 'moment';
+import *  as _ from 'lodash';
+import * as moment from 'moment';
 
 export interface IMultiPickerOption {
   text?: string
@@ -55,17 +55,6 @@ export class MultiPickerColumn implements IMultiPickerColumn {
     return _.map(this.options, option => parseInt(option.value))
   }
 
-  selectedOptionIndex(datetime: string, momentName: string = this.name): number {
-    if (datetime) {
-      const selectedValue = this.selectedValue(datetime, momentName);
-      return _.findIndex(this.options, (option)=> option.value  == selectedValue )
-    } else return 0
-  }
-
-  protected selectedValue(datetime: string, momentName: string = this.name): number {
-    return moment(datetime)[momentName]()
-  }
-
   protected generateOptions(): void {
     this.options = this.range(this.firstOptionValue, this.lastOptionValue);
   }
@@ -79,7 +68,7 @@ export class MultiPickerColumn implements IMultiPickerColumn {
   }
 
   protected toOption(num: number): IMultiPickerOption  {
-    return _.extend({ text: this.optionText(num), value: num } || {})
+    return _.extend({ text: this.optionText(num), value: num })
   };
 
   protected toOptions(nums: Array<number>): Array<IMultiPickerOption>  {
