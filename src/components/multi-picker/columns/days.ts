@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
+import * as moment from 'moment';
 
 import { MultiPickerColumn, IColumnAttrs } from '../multi-picker-columns';
 
@@ -38,7 +39,7 @@ export class MultiPickerColumnDays extends MultiPickerColumn {
   filterDays(month: number, year: number): MultiPickerColumnDays {
     if (!this.existingDates[year] || ! this.existingDates[year][month]) {
       this.generateOptions();
-      let lastMonthDay = super.toMoment(year, month, 1).endOf('month').date();
+      let lastMonthDay = this.toMoment(year, month, 1).endOf('month').date();
       let days = this.values;
       this.existingDates[year] = this.existingDates[year] || {};
       this.existingDates[year][month] = super.toOptions(_.filter(days, day => day <= lastMonthDay));
@@ -51,8 +52,12 @@ export class MultiPickerColumnDays extends MultiPickerColumn {
     let days = this.values;
     if (!_.isEmpty(this.weekends))
       this.options = super.toOptions(_.filter(days, day => {
-        return !_.includes(this.weekends, super.toMoment(year, month, day).weekday())
+        return !_.includes(this.weekends, this.toMoment(year, month, day).weekday())
       }));
     return this
+  }
+
+  private toMoment(year, month, day): moment.Moment {
+    return moment([year, month - 1, day])
   }
 }

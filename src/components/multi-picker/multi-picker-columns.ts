@@ -74,8 +74,4 @@ export class MultiPickerColumn implements IMultiPickerColumn {
   protected toOptions(nums: Array<number>): Array<IMultiPickerOption>  {
     return nums.map(val => { return this.toOption(val) })
   };
-
-  protected toMoment(year, month, day): moment.Moment {
-    return moment([year, month - 1, day])
-  }
 }
