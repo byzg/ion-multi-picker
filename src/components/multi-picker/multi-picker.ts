@@ -78,6 +78,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
    */
   @Input() formControl: FormControl;
   @Input('filterDays') customFilterDays: Function;
+  @Input('dateContext') dateContextAttr: moment.Moment | string;
   @Input() weekends: string|string[];
   @Input() type: string = 'time';
   @Input() displayFormat: string;
@@ -151,6 +152,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
    * @private
    */
   open() {
+    this.setDateContext();
     this.convertLimits();
     if (this._disabled) return;
 
@@ -232,7 +234,8 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
   setDateContext(): void {
     this.dateContext = {};
     if (this.type == 'time') {
-      let dateContext = _.pick((this._value ? moment(this._value) : moment()).toObject(), ['years', 'months', 'date']);
+      let attr = moment(this.dateContextAttr) || moment();
+      let dateContext = _.pick((this._value ? moment(this._value) : attr).toObject(), ['years', 'months', 'date']);
       let map = { years: 'year', months: 'month', date: 'day' };
       _.each(dateContext, (val, key) => this.dateContext[map[key]] = val)
     }

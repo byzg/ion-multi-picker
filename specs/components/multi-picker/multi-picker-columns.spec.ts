@@ -4,20 +4,22 @@ import { MultiPickerColumn } from '../../../src/components/multi-picker/multi-pi
 
 describe('MultiPickerColumn', () => {
   let original = (method)=> {
-    this.columnClone = this.columnClone || this.newInstance();
-    return this.columnClone[method]
+    return this.newInstance()[method].bind(this.column)
   };
 
   beforeEach(()=> {
     this.columnAttrs = {
       name: 'years',
-      firstOptionValue: 3,
+      firstOptionValue: 5,
       lastOptionValue: 7,
       step: 1,
       format: MultiPickerColumn.defaultFormat,
       min: moment(),
       max: moment().add(2, 'year')
     };
+    this.options = [
+      { text: '5', value: 5 }, { text: '6', value: 6 }, { text: '7', value: 7 }
+    ];
     this.newInstance = ()=>  new MultiPickerColumn(this.columnAttrs);
     this.column = this.newInstance();
   });
@@ -69,11 +71,29 @@ describe('MultiPickerColumn', () => {
 
   describe('#toOptions', ()=> {
     it('should get a array of numbers and return options array', ()=> {
-      spyOn(this.column, 'toOption').and.callFake(num=> original('toOption').call(this.columnClone, num));
+      spyOn(this.column, 'toOption').and.callFake(num=> original('toOption')(num));
       expect(this.column.toOptions([5, 7])).toEqual([ { text: '5', value: 5 }, { text: '7', value: 7 } ]);
       expect(this.column.toOption).toHaveBeenCalledWith(5);
       expect(this.column.toOption).toHaveBeenCalledWith(7)
     })
-  })
+  });
+
+  describe('#range', ()=> {
+    it('should get a values of the first and the last option and returns array o options', ()=> {
+      spyOn(this.column, 'toOptions').and.callFake(nums=> original('toOptions')(nums));
+      expect(this.column.range(5, 7)).toEqual(this.options);
+      expect(this.column.toOptions).toHaveBeenCalledWith([5, 6, 7]);
+    })
+  });
+
+  describe('#generateOptions', ()=> {
+    it('should set options based on #range', ()=> {
+      spyOn(this.column, 'range').and.callFake((from, to)=> original('range')(from, to));
+      expect(this.column.options).toEqual(undefined);
+      this.column.generateOptions();
+      expect(this.column.options).toEqual(this.options);
+      expect(this.column.range).toHaveBeenCalledWith(this.column.firstOptionValue, this.column.lastOptionValue);
+    })
+  });
 });
 
