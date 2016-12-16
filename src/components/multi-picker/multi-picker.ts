@@ -245,7 +245,9 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     ['min', 'max'].forEach(limit=> {
       let momentLimit = moment(this[limit]);
       this[limit] = moment(this.dateContext).set({hour: momentLimit.hour(), minute: momentLimit.minute()})
-    })
+    });
+    if (this.type == 'time' && this.max.hours() == 0)
+      this.max = this.max.endOf('date')
   }
 
   divyColumns(picker: Picker) {
