@@ -11,7 +11,7 @@ export class MultiPickerColumnMinutes extends MultiPickerColumn implements IMult
   minHour: number = this.min.hour();
   minMinute: number = this.min.minute();
   maxHour: number = this.max.hour();
-  maxMinute: number = this.calcMaxMinute();
+  maxMinute: number = this.max.minute();
 
   constructor(attrs: IColumnAttrs) {
     super(attrs);
@@ -46,9 +46,5 @@ export class MultiPickerColumnMinutes extends MultiPickerColumn implements IMult
 
   protected optionText(num: number): string {
     return _.padStart(`${num}`, 2, '0')
-  }
-
-  private calcMaxMinute(): number {
-    return this.max.isAfter(this.min.clone().endOf('day'), 'days') ? 59 : this.max.minute()
   }
 }
