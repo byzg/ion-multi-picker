@@ -25,7 +25,7 @@ export class MultiPickerColumnDays extends MultiPickerColumn {
     };
 
     if (typeof(attrs.weekends) == 'string')
-      this.weekends = _.split(<string>attrs.weekends, /[\,\s]/g).map(weekend => parseInt(weekend));
+      this.weekends = _.split(<string>attrs.weekends, /[\,\s]+/g).map(weekend => parseInt(weekend));
     else if (this.weekends instanceof Array)
       this.weekends = _.map(this.weekends, weekend => typeof(weekend) == 'number' ? weekend : parseInt(weekend));
     else

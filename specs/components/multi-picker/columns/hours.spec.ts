@@ -13,7 +13,6 @@ describe('MultiPickerColumnHours', () => {
     };
     this.newInstance = ()=>  new MultiPickerColumnHours(this.columnAttrs);
     this.column = this.newInstance();
-    this.instance =  this.column;
   });
 
   describe ('constructor', ()=> {
