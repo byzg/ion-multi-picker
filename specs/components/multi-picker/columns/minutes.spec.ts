@@ -3,16 +3,14 @@ import { MultiPickerUtils } from '../../../../src/util';
 import { MultiPickerColumnMinutes } from '../../../../src/components/multi-picker/columns/minutes';
 
 describe('MultiPickerColumnMinutes', () => {
-  let h = new SpecHelper(this);
   beforeEach(()=> {
     this.columnAttrs = {
-      min: h.today(2, 5),
-      max: h.today(4, 3),
+      min: SpecHelper.today(2, 5),
+      max: SpecHelper.today(4, 3),
       step: 12
     };
     this.newInstance = ()=>  new MultiPickerColumnMinutes(this.columnAttrs);
     this.column = this.newInstance();
-    this.instance =  this.column;
   });
 
   describe ('constructor', ()=> {
@@ -29,7 +27,7 @@ describe('MultiPickerColumnMinutes', () => {
       expect(this.newInstance().firstOptionValue).toEqual(0);
       expect(this.newInstance().lastOptionValue).toEqual(59);
 
-      this.columnAttrs.max = h.today(1, 7);
+      this.columnAttrs.max = SpecHelper.today(1, 7);
       expect(this.newInstance().firstOptionValue).toEqual(5);
       expect(this.newInstance().lastOptionValue).toEqual(7);
     })
@@ -54,6 +52,7 @@ describe('MultiPickerColumnMinutes', () => {
     it('should read from existingMinutes if it is exist', ()=> {
       this.column.existingMinutes[27] = {fakeKey: 'fakeValue'};
       expect(this.column.filterLimits(27)).toBe(this.column);
+      expect(this.column.options).toBe(this.column.existingMinutes[27]);
     });
 
     describe('', ()=> {
@@ -63,7 +62,7 @@ describe('MultiPickerColumnMinutes', () => {
       ];
 
       beforeEach(()=> {
-        h.spyOnAndCallOriginal('generateOptions');
+        spyOn(this.column, 'generateOptions').and.callThrough();
       });
 
       afterEach(()=> {

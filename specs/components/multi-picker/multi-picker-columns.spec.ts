@@ -1,10 +1,8 @@
 import * as moment from 'moment';
 
-import { SpecHelper } from '../../spec_helper';
 import { MultiPickerColumn } from '../../../src/components/multi-picker/multi-picker-columns';
 
 describe('MultiPickerColumn', () => {
-  let h = new SpecHelper(this);
   beforeEach(()=> {
     this.columnAttrs = {
       name: 'years',
@@ -62,7 +60,7 @@ describe('MultiPickerColumn', () => {
 
   describe('#toOption', ()=> {
     it('should get a number and return option object', ()=> {
-      h.spyOnAndCallOriginal('optionText');
+      spyOn(this.column, 'optionText').and.callThrough();
       expect(this.column.toOption(7)).toEqual({text: '7', value: 7});
       expect(this.column.optionText).toHaveBeenCalledWith(7)
     })
@@ -70,7 +68,7 @@ describe('MultiPickerColumn', () => {
 
   describe('#toOptions', ()=> {
     it('should get a array of numbers and return options array', ()=> {
-      h.spyOnAndCallOriginal('toOption');
+      spyOn(this.column, 'toOption').and.callThrough();
       expect(this.column.toOptions([5, 7])).toEqual([ { text: '5', value: 5 }, { text: '7', value: 7 } ]);
       expect(this.column.toOption).toHaveBeenCalledWith(5);
       expect(this.column.toOption).toHaveBeenCalledWith(7)
@@ -79,7 +77,7 @@ describe('MultiPickerColumn', () => {
 
   describe('#range', ()=> {
     it('should get a values of the first and the last option and returns array o options', ()=> {
-      h.spyOnAndCallOriginal('toOptions');
+      spyOn(this.column, 'toOptions').and.callThrough();
       expect(this.column.range(5, 7)).toEqual(this.options);
       expect(this.column.toOptions).toHaveBeenCalledWith([5, 6, 7]);
     })
@@ -87,7 +85,7 @@ describe('MultiPickerColumn', () => {
 
   describe('#generateOptions', ()=> {
     it('should set options based on #range', ()=> {
-      h.spyOnAndCallOriginal('range');
+      spyOn(this.column, 'range').and.callThrough();
       expect(this.column.options).toEqual(undefined);
       this.column.generateOptions();
       expect(this.column.options).toEqual(this.options);
