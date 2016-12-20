@@ -29,7 +29,7 @@ export class MultiPickerColumnHours extends MultiPickerColumn implements IMultiP
     return this
   }
 
-  protected optionText(num: number, attrs: Object = {}): string {
+  protected optionText(num: number): string {
     if (!this.format.is12) return `${num}`;
     let hourIn12 = num % 12;
     return _.padStart(`${hourIn12 == 0 ? 12 : hourIn12}`, 2, '0')

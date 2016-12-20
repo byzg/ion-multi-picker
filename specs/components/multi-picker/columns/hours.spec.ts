@@ -37,8 +37,12 @@ describe('MultiPickerColumnHours', () => {
       expect(this.newInstance().optionText(0)).toEqual('12')
     });
 
-    it('should convert to string with leading zeros', ()=> {
+    it('should convert to string with leading 1 zero for 1 dight', ()=> {
       expect(this.newInstance().optionText(7)).toEqual('07')
+    });
+
+    it('should convert to string by modulo 12', ()=> {
+      expect(this.newInstance().optionText(17)).toEqual('05')
     });
   });
 
