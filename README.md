@@ -120,7 +120,7 @@ Set `type` to `date` to use datepicker.
 | minuteRounding | Minutes will be equal this one or aliquot  | String or Number | 60 must be divisible by this | time | 1 |
 | cancelText | Text of picker cancel button | String |  | all | Cancel |
 | doneText | Text of picker done button | String | | all | Done |
-| weekends | Numbers of days of week that should be disabled on datepicker | String or Array of string | E.g.: ['6', '7'] | date | [] |
+| weekends | Numbers of days of week that should be disabled on datepicker. Note: Monday is the first day and Sunday is a seventh day | String or Array of string | E.g.: ['6', '7'] | date | [] |
 | filterDays | Function like (days, month, year)=> that should return array of day numbers that should NOT be disabled in given month and year | Function | E.g.: (days, month, year)=> days | date | Lodash identity |
 | dateContext | By default if initail model value is given then date of min and max setups to date of this model value. But if initail model value is given is not given then date of min and max setups to current date. Set dateContext attribute to change it | ISO 8601 String or moment.Moment | | time | |
 

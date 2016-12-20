@@ -49,15 +49,16 @@ export class MultiPickerColumnDays extends MultiPickerColumn {
   }
 
   filterWeekends(month: number, year: number): MultiPickerColumnDays {
-    let days = this.values;
-    if (!_.isEmpty(this.weekends))
+    if (!_.isEmpty(this.weekends)) {
+      let days = this.values;
       this.options = super.toOptions(_.filter(days, day => {
-        return !_.includes(this.weekends, this.toMoment(year, month, day).weekday())
+        return !_.includes(this.weekends, this.toMoment(year, month, day).weekday() || 7)
       }));
+    }
     return this
   }
 
-  private toMoment(year, month, day): moment.Moment {
+  protected toMoment(year, month, day): moment.Moment {
     return moment([year, month - 1, day])
   }
 }
