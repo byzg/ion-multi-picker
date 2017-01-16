@@ -50,10 +50,10 @@ export abstract class MultiPickerType {
 
   protected abstract defaultMoment(pickerValue: string): IMomentObject;
 
-  protected currentMoment(columns: PickerColumn[], pickerValue: string): IMomentObject {
+  protected currentMoment(columns: PickerColumn[], pickerValue: string | moment.Moment): IMomentObject {
     let currentMoment: IMomentObject = {};
     if (typeof(pickerValue) == 'string' || moment.isMoment(pickerValue))
-      currentMoment = this.defaultMoment(pickerValue);
+      currentMoment = this.defaultMoment(<string>pickerValue);
     else
       columns.forEach(column => currentMoment[column.name] = column.options[column.selectedIndex].value);
     return currentMoment
@@ -61,13 +61,6 @@ export abstract class MultiPickerType {
 
   protected generateOptions(): void {
     _.each(this._columns, (column)=> column.generateOptions())
-  }
-
-  protected someSelectedIndexBlank(columns: PickerColumn[]): boolean {
-    return _.some(columns.map(col => {
-      let isNumber = _.isNumber(col.selectedIndex);
-      return !isNumber || isNumber && col.selectedIndex < 0
-    }))
   }
 
   protected disableInvalid(columns: PickerColumn[], colName: string, pickerColIndex: number, rest: Array<number>): void {
