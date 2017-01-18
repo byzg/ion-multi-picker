@@ -11,7 +11,7 @@ export interface IMomentFakeObject extends IMomentObject {
 let defaultMomentResult = {
   fakeMinutes: 36,
   fakeHours: 7
-}
+};
 class StubMultiPickerType extends MultiPickerType {
   setColumns(val) {
     this._columns = val
@@ -62,7 +62,7 @@ describe('MultiPickerType', () => {
       stubType.dealDoneVisibleBnt(columns, this.button);
       expect(this.button.cssRole).toEqual('hide')
     })
-  })
+  });
 
   describe('#setDefaultSelectedIndexes', () => {
     it('should set indexes from defaultMoment when it is given', () => {
@@ -101,7 +101,7 @@ describe('MultiPickerType', () => {
       expect(stubType['currentMoment'](columns, null)).toEqual({fakeMinutes: 35, fakeHours: 5});
       expect(stubType['defaultMoment']).toHaveBeenCalledTimes(0)
     })
-  })
+  });
 
   describe('#generateOptions', () => {
     it('should call generateOptions for each column', () => {
@@ -110,10 +110,22 @@ describe('MultiPickerType', () => {
         spyOn(column, 'generateOptions').and.callThrough();
       });
       stubType.setColumns(columns);
-      stubType['generateOptions']()
+      stubType['generateOptions']();
       _.each(columns, column => {
         expect(column['generateOptions']).toHaveBeenCalledTimes(1)
       })
+    })
+  });
+
+  describe('#disableInvalid', () => {
+    it('should compare filtered options and all options', () => {
+      let column = columns[0];
+      column['filter'] = ()=> {};
+      spyOn(column, 'filter').and.returnValue(_.map([column.options[0], column.options[2]], 'value'));
+      stubType.setColumns({fakeMinutes: column});
+      stubType['disableInvalid'](columns, 'fakeMinutes', 0, [1]);
+      expect(column.options[1].disabled).toBe(true);
+      expect(column['filter']).toHaveBeenCalledTimes(1)
     })
   })
 });
