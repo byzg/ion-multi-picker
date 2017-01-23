@@ -24,9 +24,8 @@ export class MultiPickerTypeDate extends MultiPickerType{
   }
 
   protected defaultMoment(pickerValue: string): IMomentObject {
-    let defaultMoment: moment.Moment | IMomentObject;
-    defaultMoment = pickerValue ? moment(pickerValue) : moment();
-    defaultMoment = defaultMoment.toObject();
+    let defaultMoment: IMomentObject;
+    defaultMoment = (pickerValue ? moment(pickerValue) : moment()).toObject();
     defaultMoment.months++;
     return defaultMoment
   }

@@ -72,7 +72,7 @@ describe('MultiPickerColumnHours', () => {
       this.column.filterMeridiem(0);
       expect(this.column.existingHours[0]).toEqual([ { text: '10', value: 10 }, { text: '11', value: 11 } ]);
       expect(this.column.options).toBe(this.column.existingHours[0]);
-      expect(this.column.generateOptions).toHaveBeenCalled()
+      expect(this.column['generateOptions']).toHaveBeenCalled()
     });
 
     it('should filter after noon noon hours', ()=> {
@@ -82,7 +82,7 @@ describe('MultiPickerColumnHours', () => {
         { text: '12', value: 12 }, { text: '01', value: 13 }, { text: '02', value: 14 }
       ]);
       expect(this.column.options).toBe(this.column.existingHours[1]);
-      expect(this.column.generateOptions).toHaveBeenCalled()
+      expect(this.column['generateOptions']).toHaveBeenCalled()
     });
   });
 });

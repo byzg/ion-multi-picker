@@ -3,8 +3,7 @@ import { MultiPickerColumnDays } from '../../../../src/components/multi-picker/c
 
 describe('MultiPickerColumnHours', () => {
   beforeEach(() => {
-    this.columnAttrs = {
-    };
+    this.columnAttrs = {};
     this.newInstance = () => new MultiPickerColumnDays(this.columnAttrs);
     this.column = this.newInstance();
   });
@@ -92,7 +91,7 @@ describe('MultiPickerColumnHours', () => {
       this.column.filterDays(2, 2016);
       expect(this.column.existingDates[2016][2]).toEqual(feb16Days);
       expect(this.column.options).toBe(this.column.existingDates[2016][2]);
-      expect(this.column.generateOptions).toHaveBeenCalled()
+      expect(this.column['generateOptions']).toHaveBeenCalled()
     });
 
     it('should write days options without weekends for given month (e.g: Feb-2016)', ()=> {
