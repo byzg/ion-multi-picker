@@ -55,27 +55,12 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
   _fn: Function;
   _isOpen: boolean = false;
   _value: any;
-
-  /**
-   * @private
-   */
   id: string;
   private multiPickerType: MultiPickerTypeDate | MultiPickerTypeTime;
   private dateContext: { year: number, month: number, day: number } | {};
 
-  /**
-   * @input {string} The text to display on the picker's cancel button. Default: `Cancel`.
-   */
   @Input() cancelText: string = 'Cancel';
-
-  /**
-   * @input {string} The text to display on the picker's "Done" button. Default: `Done`.
-   */
   @Input() doneText: string = 'Done';
-
-  /**
-   * @input
-   */
   @Input() formControl: FormControl;
   @Input('filterDays') customFilterDays: Function;
   @Input('dateContext') dateContextAttr: moment.Moment | string;
@@ -94,14 +79,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     this._item && this._item.setElementClass('item-multi-picker-disabled', this._disabled);
   }
 
-  /**
-   * @output {any} Any expression to evaluate when the multi picker selection has changed.
-   */
   @Output() ionChange: EventEmitter<any> = new EventEmitter();
-
-  /**
-   * @output {any} Any expression to evaluate when the multi pickker selection was cancelled.
-   */
   @Output() ionCancel: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -112,7 +90,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
     this._form.register(this);
     if (_item) {
       this.id = 'dt-' + _item.registerInput('multi-picker');
-      this._labelId = 'lbl-' + _item.id;
+      this._labelId = 'lbl-' + _item['id'];
       this._item.setElementClass('item-multi-picker', true);
       this._value = this._value || '';
     }
@@ -226,7 +204,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
       this.multiPickerType.validate(columns, this._value);
       this.multiPickerType.setDefaultSelectedIndexes(picker.getColumns(), this._value);
     }
-    this.multiPickerType.dealDoneVisibleBnt(columns, picker.data.buttons[1]);
+    this.multiPickerType.dealDoneVisibleBnt(columns, picker['data'].buttons[1]);
 
     picker.refresh();
   }
