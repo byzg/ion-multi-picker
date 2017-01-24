@@ -37,18 +37,14 @@ export class MultiPickerTypeTime extends MultiPickerType{
   dealDoneVisibleBnt(columns: PickerColumn[], button): void {}
 
   protected defaultMoment(pickerValue: string): IMomentObject {
-    let defaultMoment: moment.Moment | IMomentObject;
-    const makeLimit = ()=> {
-      if (this.min.isAfter(defaultMoment)) defaultMoment = this.min;
-      if (this.max.isBefore(defaultMoment)) defaultMoment = this.max;
-    };
-    defaultMoment = pickerValue ? moment(pickerValue) : moment();
-    makeLimit();
+    let defaultMoment: moment.Moment = pickerValue ? moment(pickerValue) : moment();
+    if (this.min.isAfter(defaultMoment)) defaultMoment = this.min;
+    if (this.max.isBefore(defaultMoment)) defaultMoment = this.max;
     defaultMoment = MultiPickerUtils.minuteRound(defaultMoment, this.minuteRounding);
-    defaultMoment = defaultMoment.toObject();
+    let defaultMomentObject: IMomentObject = defaultMoment.toObject();
     if (this.format.is12)
-      defaultMoment['noon'] = (defaultMoment.hours >= 12 ? 1 : 0);
-    return defaultMoment
+      defaultMomentObject.noon = defaultMomentObject.hours >= 12 ? 1 : 0;
+    return defaultMomentObject
   }
 
   private parseFormat(pattern: string): void {

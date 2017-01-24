@@ -1,11 +1,14 @@
+import _ from 'lodash';
 import moment from 'moment';
 import { PickerColumn } from 'ionic-angular';
 
 import { MultiPickerTypeTime } from '../../../../src/components/multi-picker/types/time';
+import { MultiPickerColumn } from '../../../../src/components/multi-picker/multi-picker-columns';
 import { IMultiPickerTypeTimeColumns } from '../../../../src/components/multi-picker/multi-picker-types';
 import { MultiPickerColumnMinutes } from '../../../../src/components/multi-picker/columns/minutes';
 import { MultiPickerColumnHours } from '../../../../src/components/multi-picker/columns/hours';
 import { MultiPickerColumnNoon } from '../../../../src/components/multi-picker/columns/noon';
+import { MultiPickerUtils } from '../../../../src/util';
 
 describe('MultiPickerTypeTime', () => {
   beforeEach(()=> {
@@ -20,6 +23,10 @@ describe('MultiPickerTypeTime', () => {
   });
 
   describe ('constructor', ()=> {
+    it('should get format from defaultFormat', () => {
+      expect(this.type.format).toEqual(MultiPickerColumn.defaultFormat)
+    });
+
     it('should correctly create columns objects', ()=> {
       const columns: IMultiPickerTypeTimeColumns = this.type.columns();
       expect(columns.minutesCol instanceof MultiPickerColumnMinutes).toBeTruthy();
@@ -77,8 +84,59 @@ describe('MultiPickerTypeTime', () => {
   });
 
   describe('#defaultMoment', () => {
-    it('should return moment object if picker value is empty', () => {
-      this.type.dealDoneVisibleBnt();
+    const rouded = time => MultiPickerUtils.minuteRound(moment(time), this.type.minuteRounding).toObject();
+    const omit = obj => _.omit(obj, ['milliseconds']);
+
+    it('should return moment object of current time if picker value is empty', () => {
+      const defaultMoment = omit(this.type.defaultMoment(''));
+      expect(defaultMoment).toEqual(omit(rouded(undefined)));
+      expect(defaultMoment).toEqual(omit(this.type.defaultMoment()))
+    });
+
+    it('should return moment object of string', () => {
+      const pickerValue = '2017-01-24T14:38:42';
+      expect(omit(this.type.defaultMoment(pickerValue))).toEqual(omit(rouded(pickerValue)));
+    });
+
+    it('should return moment object of min', () => {
+      const pickerValue = '2000-01-24T14:38:42';
+      expect(omit(this.type.defaultMoment(pickerValue))).toEqual(omit(rouded(this.type.min)));
+    });
+
+    it('should return moment object of max', () => {
+      const pickerValue = '2101-01-24T14:38:42';
+      expect(omit(this.type.defaultMoment(pickerValue))).toEqual(omit(rouded(this.type.max)));
+    });
+
+    it('should return moment object with noon as 0 or 1', ()=> {
+      this.type.format.is12 = true;
+      const check = (pickerValue, noon) => {
+        expect(omit(this.type.defaultMoment(pickerValue))).toEqual(_.merge(omit(rouded(pickerValue)), {noon: noon}));
+      };
+      check('2017-01-24T09:38:42', 0);
+      check('2017-01-24T19:38:42', 1);
     })
   });
+
+  describe('#defaultMoment', () => {
+    it('should change format pattern attribute', () => {
+      expect(this.type.format.pattern).toEqual('');
+      this.type.parseFormat('HH:mm');
+      expect(this.type.format.pattern).toEqual('HH:mm');
+    });
+
+    it('should change format hours and is12 attribute when format is 12-hours and there is no "A"', () => {
+      expect(this.type.format.is12).toBeFalsy();
+      expect(this.type.format.hours).toEqual(24);
+      this.type.parseFormat('h:m');
+      expect(this.type.format.is12).toBeTruthy();
+      expect(this.type.format.hours).toEqual(12);
+    });
+
+    it('should upper format noons attribute when format is 12-hours and there is "A"', () => {
+      expect(this.type.format.noons).toEqual(['am', 'pm']);
+      this.type.parseFormat('h:m A');
+      expect(this.type.format.noons).toEqual(['AM', 'PM']);
+    })
+  })
 });
