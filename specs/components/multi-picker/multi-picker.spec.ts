@@ -1,12 +1,25 @@
 import moment from 'moment';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 // import { By } from '@angular/platform-browser';
 // import { DebugElement } from '@angular/core';
 import { PickerController, Form, Item } from 'ionic-angular';
 import { MultiPicker } from '../../../src/components/multi-picker/multi-picker';
 
+@Component({
+  selector: 'test-component-wrapper',
+  template: `
+    <ion-multi-picker item-content [filterDays]="filterDays" [dateContext]="dateContext">
+    </ion-multi-picker>`
+})
+class TestComponentWrapper {
+  public filterDays;
+  public dateContext;
+}
+
 let component: MultiPicker;
-let fixture: ComponentFixture<MultiPicker>;
+let wrapper: TestComponentWrapper;
+let fixture: ComponentFixture<TestComponentWrapper>;
 // let de: DebugElement;
 // let el: HTMLElement;
 
@@ -16,10 +29,10 @@ const pickerControllerStub = {
   }
 };
 
-const formStub = {
-  register: function () { },
-  deregister: function () { }
-};
+// const formStub = {
+//   register: function () { },
+//   deregister: function () { }
+// };
 
 const itemStub = {
   registerInput: function () { },
@@ -43,17 +56,25 @@ const pickerStub = {
 };
 
 describe('MultiPicker', () => {
+  const createComponent = () => {
+    fixture = TestBed.createComponent(TestComponentWrapper);
+    wrapper = fixture.componentInstance;
+    component = fixture.debugElement.children[0].componentInstance;
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MultiPicker],
+      declarations: [
+        MultiPicker,
+        TestComponentWrapper
+      ],
       providers: [
         { provide: PickerController, useValue: pickerControllerStub },
-        { provide: Form, useValue: formStub },
+        // { provide: Form, useValue: formStub },
         { provide: Item, useValue: itemStub },
       ]
     });
-    fixture = TestBed.createComponent(MultiPicker);
-    component = fixture.componentInstance;
+    createComponent()
   });
 
   describe('@Input', () => {
@@ -62,15 +83,19 @@ describe('MultiPicker', () => {
 
       it('doneText', () => expect(component.doneText).toEqual('Done') );
 
-      // it('filterDays', () => {
-      //   expect(component.customFilterDays).toEqual(undefined);
-      //   const filterDaysFn = ()=> {};
-      //   component.filterDays = filterDaysFn;
-      //   expect(component.customFilterDays).toBe(filterDaysFn);
-      // });
+      it('filterDays', () => {
+        expect(component.customFilterDays).toEqual(undefined);
+        wrapper.filterDays = ()=> {};
+        fixture.detectChanges();
+        expect(component.customFilterDays).toBe(wrapper.filterDays);
+      });
 
-      // it('dateContext', () => {
-      // });
+      it('dateContext', () => {
+        expect(component.dateContextAttr).toEqual(undefined);
+        wrapper.dateContext = moment();
+        fixture.detectChanges();
+        expect(component.dateContextAttr).toBe(wrapper.dateContext);
+      });
 
       it('type', () => expect(component.type).toEqual('time') );
 
@@ -100,4 +125,13 @@ describe('MultiPicker', () => {
       })
     });
   });
+
+  describe('constructor', ()=> {
+    it('should call register for the form', ()=> {
+      spyOn(Form.prototype, 'register').and.callThrough();
+      createComponent();
+      expect(component['_form'].register).toHaveBeenCalledTimes(1);
+      expect(component['_form'].register).toHaveBeenCalledWith(component);
+    })
+  })
 });
