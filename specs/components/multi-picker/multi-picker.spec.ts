@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import moment from 'moment';
 import {Component, DebugElement} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -5,6 +6,7 @@ import { PickerController, Picker, Item, Form } from 'ionic-angular';
 
 import { MultiPicker } from '../../../src/components/multi-picker/multi-picker';
 import { MultiPickerTypeDate } from '../../../src/components/multi-picker/types/date';
+import { MultiPickerTypeTime } from '../../../src/components/multi-picker/types/time';
 
 @Component({
   selector: 'test-component-wrapper',
@@ -21,8 +23,8 @@ let component: MultiPicker;
 let componentElement: DebugElement;
 let wrapper: TestComponentWrapper;
 let fixture: ComponentFixture<TestComponentWrapper>;
-// let de: DebugElement;
-// let el: HTMLElement;
+let multiPickerTypeColumns: Array<{name, options}>;
+let multiPickerTypeStub: MultiPickerTypeDate;
 
 const pickerControllerStub = {
   create: function () {
@@ -36,7 +38,14 @@ let itemStub = {
 };
 
 const pickerStub = {
+  addColumn: (column: Object)=> {},
+  getColumns: ()=> {},
+  refresh: ()=> {},
+  data: {
+    buttons: ['Button1', 'Button2']
+  }
 };
+
 describe('MultiPicker', () => {
   const createComponent = () => {
     fixture = TestBed.createComponent(TestComponentWrapper);
@@ -58,9 +67,27 @@ describe('MultiPicker', () => {
     });
   };
 
+  const makeMultiPickerTypeStub = () => {
+    multiPickerTypeColumns = [
+      { name: 'fakeName1', options: [{fakeKey1: 'fakeValue1'}] },
+      { name: 'fakeName2', options: [{fakeKey2: 'fakeValue2'}] }
+    ];
+    const map = {
+      columns: multiPickerTypeColumns
+    };
+    multiPickerTypeStub = new MultiPickerTypeDate({});
+    for(var methodName in multiPickerTypeStub) {
+      if(typeof multiPickerTypeStub[methodName] == 'function') {
+        let spyAnd = spyOn(multiPickerTypeStub, methodName).and;
+        map[methodName] ? spyAnd.returnValue(map[methodName]) : spyAnd.stub()
+      }
+    }
+  };
+
   beforeEach(() => {
     configureModule();
     createComponent();
+    makeMultiPickerTypeStub();
   });
 
   describe('@Input', () => {
@@ -242,9 +269,90 @@ describe('MultiPicker', () => {
   });
 
   describe('#generate', () => {
+    const spyDivyColumnsAndAddColumn = () => {
+      component['multiPickerType'] = null;
+      spyOn(_, 'each').and.stub();
+      spyOn(component, 'divyColumns').and.stub();
+    };
+
     it('should set multiPickerType attribute to MultiPickerTypeDate instance if type is date', () => {
-      spyOn(MultiPickerTypeDate).and.stub();
-      component.generate(<Picker>pickerStub)
+      spyDivyColumnsAndAddColumn();
+      component.type = 'date';
+      component.generate(<Picker>pickerStub);
+      expect(component['multiPickerType'] instanceof MultiPickerTypeDate).toBeTruthy();
+    });
+
+    it('should set multiPickerType attribute to MultiPickerTypeTime instance if type is not date', () => {
+      spyDivyColumnsAndAddColumn();
+      spyOn(MultiPickerTypeTime.prototype, 'parseFormat').and.stub();
+      component.type = 'faketype';
+      component.generate(<Picker>pickerStub);
+      expect(component['multiPickerType'] instanceof MultiPickerTypeTime).toBeTruthy();
+    });
+
+    it('should call addColumn method for argument picker', () => {
+      component.type = 'date';
+      spyOn(MultiPickerTypeDate.prototype, 'columns').and.returnValue(multiPickerTypeColumns);
+      spyOn(pickerStub, 'addColumn').and.stub();
+      spyOn(component, 'divyColumns').and.stub();
+      component.generate(<Picker>pickerStub);
+      expect(component['multiPickerType'].columns).toHaveBeenCalledTimes(1);
+      expect(pickerStub.addColumn).toHaveBeenCalledTimes(2);
+      const addColumnArg = pickerStub.addColumn['calls'].argsFor(0)[0];
+      expect(addColumnArg.name).toEqual(multiPickerTypeColumns[0].name);
+      expect(addColumnArg.options).toBe(multiPickerTypeColumns[0].options);
+      expect(addColumnArg.selectedIndex).toEqual(-1);
+    });
+
+    it('should call #divyColumns', () => {
+      component.type = 'date';
+      spyOn(component, 'divyColumns').and.stub();
+      spyOn(MultiPickerTypeDate.prototype, 'columns').and.returnValue([]);
+      component.generate(<Picker>pickerStub);
+      expect(component.divyColumns).toHaveBeenCalledWith(pickerStub);
+    });
+  });
+
+  describe('validateColumns', () => {
+    const getColumnsResult = { fakeKey: 'fakeValue' };
+    beforeEach(() => {
+      spyOn(pickerStub, 'getColumns').and.returnValue(getColumnsResult);
+    });
+
+    it('should call getColumns, refresh methods for argument picker and dealDoneVisibleBnt for multiPickerType', () => {
+      component['multiPickerType'] = multiPickerTypeStub;
+      spyOn(pickerStub, 'refresh').and.stub();
+      component.validateColumns(<Picker>pickerStub);
+      expect(component['multiPickerType'].dealDoneVisibleBnt).toHaveBeenCalledTimes(1);
+      expect(component['multiPickerType'].dealDoneVisibleBnt).toHaveBeenCalledWith(getColumnsResult, 'Button2');
+      expect(pickerStub.getColumns).toHaveBeenCalledTimes(2);
+      expect(pickerStub.refresh).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call MultiPicker.throw', () => {
+      multiPickerTypeColumns[1].options = [];
+      component['multiPickerType'] = multiPickerTypeStub;
+      spyOn(MultiPicker, 'throw').and.stub();
+      component.validateColumns(<Picker>pickerStub);
+      expect(MultiPicker.throw).toHaveBeenCalledTimes(1);
+      expect(MultiPicker.throw).toHaveBeenCalledWith('column "fakeName2" should have at least one option');
+    });
+
+    it('should work when opened', ()=> {
+      component['multiPickerType'] = multiPickerTypeStub;
+      component._isOpen = true;
+      component.validateColumns(<Picker>pickerStub);
+      expect(component['multiPickerType'].validate).toHaveBeenCalledWith(getColumnsResult)
+    });
+
+    it('should work when not opened', ()=> {
+      component['multiPickerType'] = multiPickerTypeStub;
+      component._isOpen = false;
+      component._value = 'value';
+      component.validateColumns(<Picker>pickerStub);
+      expect(component['multiPickerType'].validate).toHaveBeenCalledWith(getColumnsResult, component._value);
+      expect(component['multiPickerType'].setDefaultSelectedIndexes).toHaveBeenCalledWith(getColumnsResult, component._value);
+      expect(pickerStub.getColumns).toHaveBeenCalledTimes(2);
     });
   });
 });
