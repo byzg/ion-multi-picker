@@ -212,9 +212,9 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
   setDateContext(): void {
     this.dateContext = {};
     if (this.type == 'time') {
-      let attr = moment(this.dateContextAttr) || moment();
-      let dateContext = _.pick((this._value ? moment(this._value) : attr).toObject(), ['years', 'months', 'date']);
-      let map = { years: 'year', months: 'month', date: 'day' };
+      const attr = moment(this.dateContextAttr) || moment();
+      const dateContext = _.pick((this._value ? moment(this._value) : attr).toObject(), ['years', 'months', 'date']);
+      const map = { years: 'year', months: 'month', date: 'day' };
       _.each(dateContext, (val, key) => this.dateContext[map[key]] = val)
     }
   }

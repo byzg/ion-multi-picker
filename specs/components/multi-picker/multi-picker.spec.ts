@@ -313,7 +313,7 @@ describe('MultiPicker', () => {
     });
   });
 
-  describe('validateColumns', () => {
+  describe('#validateColumns', () => {
     const getColumnsResult = { fakeKey: 'fakeValue' };
     beforeEach(() => {
       spyOn(pickerStub, 'getColumns').and.returnValue(getColumnsResult);
@@ -353,6 +353,43 @@ describe('MultiPicker', () => {
       expect(component['multiPickerType'].validate).toHaveBeenCalledWith(getColumnsResult, component._value);
       expect(component['multiPickerType'].setDefaultSelectedIndexes).toHaveBeenCalledWith(getColumnsResult, component._value);
       expect(pickerStub.getColumns).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('#setDateContext', () => {
+    beforeEach(() => {
+      expect(component['dateContext']).toBe(undefined);
+    });
+
+    it('should just set date context attribute to empty object', () => {
+      component.type = 'faketype';
+      component.setDateContext();
+      expect(component['dateContext']).toEqual({})
+    });
+
+    it('should correctly set dateContext attribute when _value is given', () => {
+      component.type = 'time';
+      component._value = '2017-01-24T14:38:42';
+      component.dateContextAttr = '2015-04-19T11:14:35';
+      component.setDateContext();
+      expect(component['dateContext']).toEqual({ year: 2017, month: 0, day: 24 })
+    });
+
+    it('should correctly set dateContext attribute when _value is not given and dateContextAttr is given', () => {
+      component.type = 'time';
+      component._value = undefined;
+      component.dateContextAttr = '2015-04-19T11:14:35';
+      component.setDateContext();
+      expect(component['dateContext']).toEqual({ year: 2015, month: 3, day: 19 })
+    });
+
+    it('should correctly set dateContext attribute when _value and dateContextAttr is not given', () => {
+      component.type = 'time';
+      component._value = undefined;
+      component.dateContextAttr = undefined;
+      component.setDateContext();
+      const today = moment();
+      expect(component['dateContext']).toEqual({ year: today.year(), month: today.month(), day: today.date() })
     });
   });
 });
