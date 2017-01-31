@@ -392,4 +392,52 @@ describe('MultiPicker', () => {
       expect(component['dateContext']).toEqual({ year: today.year(), month: today.month(), day: today.date() })
     });
   });
+
+  describe('#convertLimits', () => {
+    it('should set date for min and max from dateContex', ()=> {
+      component.min = moment('2000-01-24T04:17:42');
+      component.max = moment('2101-01-24T14:38:42');
+      component['dateContext'] = '2015-04-19T11:14:35';
+      component.convertLimits();
+      expect(component.min.format().slice(0, 16)).toEqual('2015-04-19T04:17');
+      expect(component.max.format().slice(0, 16)).toEqual('2015-04-19T14:38');
+    });
+
+    it('should set max time to 23:59 if type is time and max hour is zero', ()=> {
+      component.type = 'time';
+      component.max = moment('2101-01-24T00:38:42');
+      component['dateContext'] = '2015-04-19T11:14:35';
+      component.convertLimits();
+      expect(component.max.format().slice(0, 16)).toEqual('2015-04-19T23:59');
+    });
+  });
+
+  describe('#divyColumns', () => {
+    const getColumnsResult = [
+      {
+        options: [
+          {
+            text: 'sometext1'
+          }
+        ],
+        columnWidth: null
+      },
+      {
+        options: [
+          {
+            text: 'sometext2'
+          }
+        ],
+        columnWidth: null
+      }
+    ];
+    beforeEach(() => {
+      spyOn(pickerStub, 'getColumns').and.returnValue(getColumnsResult);
+    });
+
+    it('should correctly set picker column width if two columns', ()=> {
+      component.divyColumns(<Picker>pickerStub);
+      expect(getColumnsResult[0].columnWidth).toEqual('144px')
+    });
+  });
 });
