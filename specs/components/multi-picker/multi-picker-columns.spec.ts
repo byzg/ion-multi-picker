@@ -23,10 +23,11 @@ describe('MultiPickerColumn', () => {
 
   it('.defaultFormat', () => {
     expect(MultiPickerColumn.defaultFormat).toEqual({
-      pattern: '',
       is12: false,
       noons: ['am', 'pm'],
       hours: 24,
+      displayFormat: 'DD.MM.YYYY HH:mm',
+      pickerFormat: 'DD.MM.YYYY HH:mm'
     })
   });
 

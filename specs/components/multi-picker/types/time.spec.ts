@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import moment from 'moment';
+import * as _ from 'lodash';
+import * as moment from 'moment';
 import { PickerColumn } from 'ionic-angular';
 
 import { MultiPickerTypeTime } from '../../../../src/components/multi-picker/types/time';
@@ -15,15 +15,14 @@ describe('MultiPickerTypeTime', () => {
     this.typeAttrs = {
       min: '2005-08-09T18:31:42',
       max: '2091-11-15T14:13:23',
-      minuteRounding: '6',
-      format: ''
+      minuteRounding: '6'
     };
     this.newInstance = ()=>  new MultiPickerTypeTime(this.typeAttrs);
     this.type = this.newInstance();
   });
 
   describe ('constructor', ()=> {
-    it('should get format from defaultFormat', () => {
+    fit('should parse format from defaultFormat', () => {
       expect(this.type.format).toEqual(MultiPickerColumn.defaultFormat)
     });
 
@@ -120,9 +119,9 @@ describe('MultiPickerTypeTime', () => {
 
   describe('#defaultMoment', () => {
     it('should change format pattern attribute', () => {
-      expect(this.type.format.pattern).toEqual('');
+      expect(this.type.format.pickerFormat).toEqual('');
       this.type.parseFormat('HH:mm');
-      expect(this.type.format.pattern).toEqual('HH:mm');
+      expect(this.type.format.pickerFormat).toEqual('HH:mm');
     });
 
     it('should change format hours and is12 attribute when format is 12-hours and there is no "A"', () => {

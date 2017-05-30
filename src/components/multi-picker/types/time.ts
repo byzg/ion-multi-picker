@@ -49,7 +49,7 @@ export class MultiPickerTypeTime extends MultiPickerType{
 
   private parseFormat(pickerFormat: string): void {
     _.extend(this.format, {
-      pickerFormat,
+      pickerFormat: pickerFormat.match(/[HhmAa\:]/g).join(''),
       is12: pickerFormat.includes('h'),
     });
     if (this.format.is12) {

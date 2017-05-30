@@ -36,8 +36,8 @@ export class MultiPickerColumn implements IMultiPickerColumn {
       is12: false,
       noons: ['am', 'pm'],
       hours: 24,
-      displayFormat: 'DD.MM.YYYY HH:MM',
-      pickerFormat: 'DD.MM.YYYY HH:MM'
+      displayFormat: 'DD.MM.YYYY HH:mm',
+      pickerFormat: 'DD.MM.YYYY HH:mm'
     }
   };
   name: string;
