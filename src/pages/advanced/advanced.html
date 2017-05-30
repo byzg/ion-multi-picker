@@ -9,10 +9,29 @@
 <ion-content padding class="advanced">
   <form [formGroup]="formGroup">
     <ion-item>
-      <ion-label>Advanced DatePicker</ion-label>
+      <ion-label>Formatted DatePicker</ion-label>
+      <ion-multi-picker  item-content type="date" [formControl]="formGroup.controls.dateFormatted"
+                         [displayFormat]="'MM.DD.YYYY'" [pickerFormat]="'DD.MMM.YYYY'">
+      </ion-multi-picker>
+    </ion-item>
+    <pre>
+      &lt;form [formGroup]="formGroup"&gt;
+        &lt;ion-item&gt;
+          &lt;ion-label&gt;Advanced Picker&lt;/ion-label&gt;
+          &lt;ion-multi-picker  item-content type="date" [formControl]="formGroup.controls.date"
+                             [displayFormat]="'MM.DD.YYYY'" [pickerFormat]="'DD.MMM.YYYY'"&gt;
+          &lt;/ion-multi-picker&gt;
+        &lt;/ion-item&gt;
+      &lt;/form&gt;
+    </pre>
+    <pre>formGroup.controls.date.value = {{formGroup.controls.dateFormatted.value}}</pre>
+
+    <hr>
+
+    <ion-item>
+      <ion-label>Filtered DatePicker without weekends</ion-label>
       <ion-multi-picker  item-content type="date"
-                         [filterDays]="filterDays" [formControl]="formGroup.controls.date"
-                         [weekends]='[6,7]' [displayFormat]="'MM.DD.YYYY'">
+                         [filterDays]="filterDays" [formControl]="formGroup.controls.dateFiltered" [weekends]='[6,7]'>
       </ion-multi-picker>
     </ion-item>
     <pre>
@@ -20,13 +39,12 @@
         &lt;ion-item&gt;
           &lt;ion-label&gt;Advanced Picker&lt;/ion-label&gt;
           &lt;ion-multi-picker  item-content type="date"
-                             [filterDays]="filterDays" [formControl]="formGroup.controls.date"
-                             [weekends]='[6,7]' [displayFormat]="'MM.DD.YYYY'"&gt;
+                             [filterDays]="filterDays" [formControl]="formGroup.controls.date" [weekends]='[6,7]'&gt;
           &lt;/ion-multi-picker&gt;
         &lt;/ion-item&gt;
       &lt;/form&gt;
     </pre>
-    <pre>formGroup.controls.date.value = {{formGroup.controls.date.value}}</pre>
+    <pre>formGroup.controls.date.value = {{formGroup.controls.dateFiltered.value}}</pre>
 
     <hr>
     <ion-item>

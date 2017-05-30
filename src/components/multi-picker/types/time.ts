@@ -18,7 +18,7 @@ export class MultiPickerTypeTime extends MultiPickerType{
   constructor(cmpAttrs) {
     super();
     [this.min, this.max, this.minuteRounding] = [moment(cmpAttrs.min), moment(cmpAttrs.max), parseInt(cmpAttrs.minuteRounding)];
-    this.parseFormat(cmpAttrs.format);
+    this.parseFormat(cmpAttrs.pickerFormat);
     this._columns = {
       hoursCol: new MultiPickerColumnHours({min: this.min, max: this.max, format: this.format}),
       minutesCol: new MultiPickerColumnMinutes({min: this.min, max: this.max, step: this.minuteRounding})
@@ -47,13 +47,13 @@ export class MultiPickerTypeTime extends MultiPickerType{
     return defaultMomentObject
   }
 
-  private parseFormat(pattern: string): void {
+  private parseFormat(pickerFormat: string): void {
     _.extend(this.format, {
-      pattern: pattern,
-      is12: pattern.includes('h'),
+      pickerFormat,
+      is12: pickerFormat.includes('h'),
     });
     if (this.format.is12) {
-      if (pattern.includes('A')) this.format.noons = this.format.noons.map(_.upperCase);
+      if (pickerFormat.includes('A')) this.format.noons = this.format.noons.map(_.upperCase);
       this.format.hours = 12
     }
   }

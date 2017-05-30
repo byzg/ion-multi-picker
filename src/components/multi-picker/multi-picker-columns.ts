@@ -9,10 +9,11 @@ export interface IMultiPickerOption {
 }
 
 export interface IColumnFormat {
-  pattern: string,
   is12: boolean,
   noons: Array<string>,
   hours: number
+  displayFormat: string,
+  pickerFormat: string
 }
 
 export interface IColumnAttrs {
@@ -32,10 +33,11 @@ export interface IMultiPickerColumn extends IColumnAttrs {
 export class MultiPickerColumn implements IMultiPickerColumn {
   static get defaultFormat(): IColumnFormat {
     return {
-      pattern: '',
       is12: false,
       noons: ['am', 'pm'],
       hours: 24,
+      displayFormat: 'DD.MM.YYYY HH:MM',
+      pickerFormat: 'DD.MM.YYYY HH:MM'
     }
   };
   name: string;
