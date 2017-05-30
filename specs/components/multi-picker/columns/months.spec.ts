@@ -2,7 +2,7 @@ import { MultiPickerColumnMonths } from '../../../../src/components/multi-picker
 
 describe('MultiPickerColumnMonths', () => {
   beforeEach(()=> {
-    this.newInstance = ()=>  new MultiPickerColumnMonths({});
+    this.newInstance = ()=>  new MultiPickerColumnMonths({ pickerFormat: null });
     this.column = this.newInstance();
   });
 

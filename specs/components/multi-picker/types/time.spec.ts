@@ -15,15 +15,18 @@ describe('MultiPickerTypeTime', () => {
     this.typeAttrs = {
       min: '2005-08-09T18:31:42',
       max: '2091-11-15T14:13:23',
-      minuteRounding: '6'
+      minuteRounding: '6',
+      pickerFormat: 'DD.MM.YYYY HH:mm'
     };
     this.newInstance = ()=>  new MultiPickerTypeTime(this.typeAttrs);
     this.type = this.newInstance();
   });
 
   describe ('constructor', ()=> {
-    fit('should parse format from defaultFormat', () => {
-      expect(this.type.format).toEqual(MultiPickerColumn.defaultFormat)
+    it('should get format from defaultFormat and parse given pickerFormat', () => {
+      expect(this.type.format).toEqual(_.assign(MultiPickerColumn.defaultFormat, {
+        pickerFormat: 'HH:mm'
+      }))
     });
 
     it('should correctly create columns objects', ()=> {
