@@ -113,8 +113,8 @@ Set `type` to `date` to use datepicker.
 |-----------|-------------|-----------|--------|-------------|--------|
 |item-content|**Required**, add this attribute so that this custom component can be display correctly under `ion-item` tag|  - | - | all | - |
 |type| Sets waht to use: date- or timepicker | String | date or time| - | time |
-|displayFormat| Format of picked data | String | [moment formats](http://momentjs.com/docs/#/displaying/format/) | all | HH:mm |
-|pickerFormat| Format of picking data. **Note: now supports only months** | String | [moment formats](http://momentjs.com/docs/#/displaying/format/) | date | DD.MMM.YYYY |
+|displayFormat| Format of picked data | String | [moment formats](http://momentjs.com/docs/#/displaying/format/) | all | DD.MM.YYYY HH:mm |
+|pickerFormat| Format of picking data. **Note: now supports only months** | String | [moment formats](http://momentjs.com/docs/#/displaying/format/) | date | `displayFormat` |
 | min | Validation minimum attribute | ISO 8601 String or moment.Moment |  | time | Beginning of the year, which precedes the current 2 years |
 | max | Validation maximum attribute | ISO 8601 String or moment.Moment | | time | End of the year that follows the current 2 years |
 | minuteRounding | Minutes will be equal this one or aliquot  | String or Number | 60 must be divisible by this | time | 1 |
