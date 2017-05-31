@@ -25,9 +25,6 @@ NPM: [https://www.npmjs.com/package/ion2-datetime-picker](https://www.npmjs.com/
 ![Picker with Independent Columns](https://github.com/raychenfj/ion-multi-picker/blob/master/img/independent.gif?raw=true)
 ![Picker with Dependent Columns](https://github.com/raychenfj/ion-multi-picker/blob/master/img/dependent.gif?raw=true)
 
-## Demo
-Check out the live demo here: [https://raychenfj.github.io/ion-multi-picker/](https://raychenfj.github.io/ion-multi-picker/)
-
 ## Supported Version
 
 Ionic2 2.0.0-rc.3
@@ -35,6 +32,8 @@ Ionic2 2.0.0-rc.3
 Ionic CLI 2.1.12 -->
 
 ## Demo
+
+Code of this example [here](https://github.com/byzg/ion2-datetime-picker/tree/master/src/pages/advanced)
 
 <img src="./demo.gif?raw=true" alt="Demo">
 
