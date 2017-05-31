@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import moment from 'moment';
+import * as _ from 'lodash';
+import * as moment from 'moment';
 import { PickerColumn } from 'ionic-angular';
 
 import { MultiPickerTypeTime } from '../../../../src/components/multi-picker/types/time';
@@ -16,15 +16,17 @@ describe('MultiPickerTypeTime', () => {
       min: '2005-08-09T18:31:42',
       max: '2091-11-15T14:13:23',
       minuteRounding: '6',
-      format: ''
+      pickerFormat: 'DD.MM.YYYY HH:mm'
     };
     this.newInstance = ()=>  new MultiPickerTypeTime(this.typeAttrs);
     this.type = this.newInstance();
   });
 
   describe ('constructor', ()=> {
-    it('should get format from defaultFormat', () => {
-      expect(this.type.format).toEqual(MultiPickerColumn.defaultFormat)
+    it('should get format from defaultFormat and parse given pickerFormat', () => {
+      expect(this.type.format).toEqual(_.assign(MultiPickerColumn.defaultFormat, {
+        pickerFormat: 'HH:mm'
+      }))
     });
 
     it('should correctly create columns objects', ()=> {
@@ -35,7 +37,7 @@ describe('MultiPickerTypeTime', () => {
     });
 
     it('should create noon column if is12', ()=> {
-      this.typeAttrs.format = 'h';
+      this.typeAttrs.pickerFormat = 'h';
       const columns: IMultiPickerTypeTimeColumns = this.newInstance().columns();
       expect(columns.noon instanceof MultiPickerColumnNoon).toBeTruthy();
     });
@@ -118,11 +120,10 @@ describe('MultiPickerTypeTime', () => {
     })
   });
 
-  describe('#defaultMoment', () => {
-    it('should change format pattern attribute', () => {
-      expect(this.type.format.pattern).toEqual('');
-      this.type.parseFormat('HH:mm');
-      expect(this.type.format.pattern).toEqual('HH:mm');
+  describe('#parseFormat', () => {
+    it('should change format pickerFormat attribute getting only time part', () => {
+      this.type.parseFormat('DD.MM.YYYY HH word wor:d mm');
+      expect(this.type.format.pickerFormat).toEqual('HH:mm');
     });
 
     it('should change format hours and is12 attribute when format is 12-hours and there is no "A"', () => {

@@ -24,10 +24,10 @@
   },
   "scripts": {
     "e2e": "tsc -p tsconfig.test.json && concurrently \"webdriver-manager start\" \"protractor protractor.conf.js\"",
-    "test": "karma start",
-    "posttest": "remap-istanbul -i coverage/json/coverage-final.json -o coverage/html -t html",
+    "test": "karma start ./config/karma.conf.js",
+    "test-watch": "karma start ./config/karma.conf.js --auto-watch --no-single-run",
+    "posttest": "remap-istanbul -i config/coverage/json/coverage-final.json -o config/coverage/html -t html",
     "coverage": "open \"coverage/PhantomJS 2.1.1 (Mac OS X 0.0.0)/index.html\"",
-    "test-watch": "karma start --auto-watch --no-single-run",
     "build": "ionic-app-scripts build",
     "watch": "ionic-app-scripts watch",
     "serve:before": "watch",
@@ -101,7 +101,7 @@
       "locator": "ios"
     }
   ],
-  "version": "1.1.7",
+  "version": "1.1.8",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "repository": {

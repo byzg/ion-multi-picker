@@ -16,7 +16,7 @@ gulp.task('copyscss', function() {
 });
 
 var shell = require('gulp-shell');
-gulp.task('ngc', shell.task(['ngc -p tsconfig.build.json']));
+gulp.task('ngc', shell.task(['ngc -p config/tsconfig.build.json']));
 gulp.task('pack', shell.task(['npm pack']));
 
 

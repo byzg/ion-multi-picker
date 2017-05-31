@@ -10,9 +10,10 @@ export class MultiPickerTypeDate extends MultiPickerType{
   protected _columns: IMultiPickerTypeDateColumns;
   constructor(cmpAttrs) {
     super();
+    const { customFilterDays, weekends, pickerFormat } = cmpAttrs;
     this._columns = {
-      daysCol: new MultiPickerColumnDays({customFilterDays: cmpAttrs.customFilterDays, weekends: cmpAttrs.weekends}),
-      monthsCol: new MultiPickerColumnMonths({}),
+      daysCol: new MultiPickerColumnDays({ customFilterDays, weekends }),
+      monthsCol: new MultiPickerColumnMonths({ pickerFormat }),
       yearsCol: new MultiPickerColumnYears({})
     };
     this.generateOptions()

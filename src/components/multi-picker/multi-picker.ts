@@ -7,6 +7,7 @@ import moment from 'moment';
 
 import { MultiPickerTypeDate } from './types/date';
 import { MultiPickerTypeTime } from './types/time';
+import { MultiPickerColumn } from './multi-picker-columns';
 
 export interface ChangingValuePart {
   columnIndex: number,
@@ -67,6 +68,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
   @Input() weekends: string|string[];
   @Input() type: string = 'time';
   @Input() displayFormat: string;
+  @Input() pickerFormat: string;
   @Input() min: moment.Moment = moment().subtract(MultiPicker.YEAR_ROUND, 'year').startOf('year');
   @Input() max: moment.Moment = moment().add(MultiPicker.YEAR_ROUND, 'year').endOf('year');
   @Input() minuteRounding: string|number = 1;
@@ -99,6 +101,8 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
   ngOnInit() {
     if (!this.displayFormat)
       this.displayFormat = this.displayFormat || this.type == 'date' ? 'DD.MM.YYYY' : 'HH:mm';
+    if (!this.pickerFormat)
+      this.pickerFormat = this.displayFormat || MultiPickerColumn.defaultFormat.pickerFormat
   }
 
   ngAfterContentInit() {
@@ -169,18 +173,17 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
   }
 
   generate(picker: Picker) {
+    const { pickerFormat } = this;
+    const commonParams = { pickerFormat };
     if (this.type == 'date') {
-      this.multiPickerType = new MultiPickerTypeDate({
-        customFilterDays: this.customFilterDays,
-        weekends: this.weekends
-      })
+      const { customFilterDays, weekends } = this;
+      this.multiPickerType = new MultiPickerTypeDate(
+        _.extend(commonParams, { customFilterDays, weekends }))
     } else {
-      this.multiPickerType = new MultiPickerTypeTime({
-        min: this.min,
-        max: this.max,
-        minuteRounding: this.minuteRounding,
-        format: this.displayFormat
-      })
+      const { min, max, minuteRounding } = this;
+      this.multiPickerType = new MultiPickerTypeTime(
+        _.extend(commonParams, { min, max, minuteRounding })
+      )
     }
 
     _.each(this.multiPickerType.columns(), (column) => {
@@ -212,9 +215,9 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
   setDateContext(): void {
     this.dateContext = {};
     if (this.type == 'time') {
-      let attr = moment(this.dateContextAttr) || moment();
-      let dateContext = _.pick((this._value ? moment(this._value) : attr).toObject(), ['years', 'months', 'date']);
-      let map = { years: 'year', months: 'month', date: 'day' };
+      const attr = moment(this.dateContextAttr) || moment();
+      const dateContext = _.pick((this._value ? moment(this._value) : attr).toObject(), ['years', 'months', 'date']);
+      const map = { years: 'year', months: 'month', date: 'day' };
       _.each(dateContext, (val, key) => this.dateContext[map[key]] = val)
     }
   }

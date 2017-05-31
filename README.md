@@ -113,8 +113,8 @@ Set `type` to `date` to use datepicker.
 |-----------|-------------|-----------|--------|-------------|--------|
 |item-content|**Required**, add this attribute so that this custom component can be display correctly under `ion-item` tag|  - | - | all | - |
 |type| Sets waht to use: date- or timepicker | String | date or time| - | time |
-|displayFormat| Format of picked data | String | [moment formats](http://momentjs.com/docs/#/displaying/format/) | time | HH:mm |
-||||| date | DD.MM.YYYY |
+|displayFormat| Format of picked data | String | [moment formats](http://momentjs.com/docs/#/displaying/format/) | all | DD.MM.YYYY HH:mm |
+|pickerFormat| Format of picking data. **Note: now supports only months** | String | [moment formats](http://momentjs.com/docs/#/displaying/format/) | date | `displayFormat` |
 | min | Validation minimum attribute | ISO 8601 String or moment.Moment |  | time | Beginning of the year, which precedes the current 2 years |
 | max | Validation maximum attribute | ISO 8601 String or moment.Moment | | time | End of the year that follows the current 2 years |
 | minuteRounding | Minutes will be equal this one or aliquot  | String or Number | 60 must be divisible by this | time | 1 |
@@ -153,11 +153,18 @@ The unit test framework is karma + webpack + jasmine. And e2e test is protractor
 
 Add your unit test and use `npm test` to start karma.
 
+Debug your unit test using `npm run test-watch` and open `http://localhost:9876/debug.html`
+
 Add your e2e test, run `ionic serve` and then in another terminal use `npm run e2e` to run protractor.
 
 You can also add your use case in the `app/pages`.
 
 Finally, send me a `PULL REQUEST`.
+
+##### Build
+
+`gulp default`
+`npm publish`
 
 ## License
 MIT
