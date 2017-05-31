@@ -34,6 +34,10 @@ Ionic2 2.0.0-rc.3
 
 Ionic CLI 2.1.12 -->
 
+## Demo
+
+<img src="./demo.gif?raw=true" alt="Demo">
+
 
 ## Installation
 ```
