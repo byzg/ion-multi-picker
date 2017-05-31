@@ -10,7 +10,8 @@ import moment from 'moment';
 export class AdvancedExamplePage {
   private formBuilder: FormBuilder = new FormBuilder();
   formGroup: FormGroup = this.formBuilder.group({
-    date: [moment().format()],
+    dateFormatted: [moment().format()],
+    dateFiltered: [moment().format()],
     time: [moment().format()],
     timeRounded: [moment().format()],
     time12: [moment().format()],
