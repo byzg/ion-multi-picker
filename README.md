@@ -161,5 +161,10 @@ You can also add your use case in the `app/pages`.
 
 Finally, send me a `PULL REQUEST`.
 
+##### Build
+
+`gulp default`
+`npm publish`
+
 ## License
 MIT

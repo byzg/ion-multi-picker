@@ -22,6 +22,6 @@ export class MultiPickerColumnMonths extends MultiPickerColumn implements IMulti
   }
 
   private parseFormat() {
-    this.pickerFormat = this.pickerFormat.match(/M+/)[0]
+    this.pickerFormat = this.pickerFormat.match(/M/)[0]
   }
 }
