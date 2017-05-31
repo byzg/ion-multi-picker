@@ -11,7 +11,7 @@ export class MultiPickerColumnMonths extends MultiPickerColumn implements IMulti
   name = 'months';
   lastOptionValue = 12;
   pickerFormat: string = MultiPickerColumn.defaultFormat.pickerFormat;
-  constructor(attrs: IColumnMonthsAttrs) {
+  constructor(attrs?: IColumnMonthsAttrs) {
     super(attrs);
     _.merge(this, attrs);
     this.parseFormat()

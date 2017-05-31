@@ -68,7 +68,7 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
   @Input() weekends: string|string[];
   @Input() type: string = 'time';
   @Input() displayFormat: string;
-  @Input() pickerFormat: string = MultiPickerColumn.defaultFormat.pickerFormat;
+  @Input() pickerFormat: string;
   @Input() min: moment.Moment = moment().subtract(MultiPicker.YEAR_ROUND, 'year').startOf('year');
   @Input() max: moment.Moment = moment().add(MultiPicker.YEAR_ROUND, 'year').endOf('year');
   @Input() minuteRounding: string|number = 1;
@@ -101,6 +101,8 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
   ngOnInit() {
     if (!this.displayFormat)
       this.displayFormat = this.displayFormat || this.type == 'date' ? 'DD.MM.YYYY' : 'HH:mm';
+    if (!this.pickerFormat)
+      this.pickerFormat = this.displayFormat || MultiPickerColumn.defaultFormat.pickerFormat
   }
 
   ngAfterContentInit() {

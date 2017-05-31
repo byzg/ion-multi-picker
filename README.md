@@ -153,6 +153,8 @@ The unit test framework is karma + webpack + jasmine. And e2e test is protractor
 
 Add your unit test and use `npm test` to start karma.
 
+Debug your unit test using `npm run test-watch` and open `http://localhost:9876/debug.html`
+
 Add your e2e test, run `ionic serve` and then in another terminal use `npm run e2e` to run protractor.
 
 You can also add your use case in the `app/pages`.

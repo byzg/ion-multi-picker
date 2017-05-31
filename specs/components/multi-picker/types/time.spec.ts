@@ -37,7 +37,7 @@ describe('MultiPickerTypeTime', () => {
     });
 
     it('should create noon column if is12', ()=> {
-      this.typeAttrs.format = 'h';
+      this.typeAttrs.pickerFormat = 'h';
       const columns: IMultiPickerTypeTimeColumns = this.newInstance().columns();
       expect(columns.noon instanceof MultiPickerColumnNoon).toBeTruthy();
     });
@@ -120,10 +120,9 @@ describe('MultiPickerTypeTime', () => {
     })
   });
 
-  describe('#defaultMoment', () => {
-    it('should change format pattern attribute', () => {
-      expect(this.type.format.pickerFormat).toEqual('');
-      this.type.parseFormat('HH:mm');
+  describe('#parseFormat', () => {
+    it('should change format pickerFormat attribute getting only time part', () => {
+      this.type.parseFormat('DD.MM.YYYY HH word wor:d mm');
       expect(this.type.format.pickerFormat).toEqual('HH:mm');
     });
 
