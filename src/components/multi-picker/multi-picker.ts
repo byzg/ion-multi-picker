@@ -105,6 +105,8 @@ export class MultiPicker implements AfterContentInit, ControlValueAccessor, OnDe
       this.pickerFormat = this.displayFormat || MultiPickerColumn.defaultFormat.pickerFormat
   }
 
+  initFocus(): void {}
+
   ngAfterContentInit() {
     // update how the multi picker value is displayed as formatted text
     this.setDateContext();
