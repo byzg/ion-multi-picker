@@ -1,10 +1,9 @@
 # Ion2-datetime-picker
 
 
-[![Dependency Status](https://david-dm.org/byzg/ion2-datetime-picker.svg)](https://david-dm.org/byzg/ion2-datetime-picker) [![devDependencies Status](https://david-dm.org/byzg/ion2-datetime-picker/dev-status.svg)](https://david-dm.org/byzg/ion2-datetime-picker?type=dev) [![npm version](https://badge.fury.io/js/ion2-datetime-picker.svg)](https://badge.fury.io/js/ion2-datetime-picker) [![npm download](https://img.shields.io/npm/dm/ion2-datetime-picker.svg)](https://www.npmjs.com/package/ion2-datetime-picker)
+[![Dependency Status](https://david-dm.org/byzg/ion2-datetime-picker.svg)](https://david-dm.org/byzg/ion2-datetime-picker) [![devDependencies Status](https://david-dm.org/byzg/ion2-datetime-picker/dev-status.svg)](https://david-dm.org/byzg/ion2-datetime-picker?type=dev) [![npm version](https://badge.fury.io/js/ion2-datetime-picker.svg)](https://badge.fury.io/js/ion2-datetime-picker) [![npm download](https://img.shields.io/npm/dm/ion2-datetime-picker.svg)](https://www.npmjs.com/package/ion2-datetime-picker) [![Coverage Status](https://coveralls.io/repos/byzg/ion2-datetime-picker/badge.svg?branch=master)](https://coveralls.io/r/byzg/ion2-datetime-picker?branch=master)
 
-
-Ion2 Datetime Picker--An Ionic2 Custom Datetime Picker Component based on 
+Ion2 Datetime Picker--An Ionic 2+ Custom Datetime Picker Component based on 
 [ion-multi-picker](https://github.com/raychenfj/ion-multi-picker) by [raychenfj](https://github.com/raychenfj)
 
 Simulate IOS date and time column pickers by ionic2 picker. Default 
@@ -18,18 +17,10 @@ This one helps to solve these problems.
 Github: [https://github.com/byzg/ion2-datetime-picker](https://github.com/byzg/ion2-datetime-picker)
 
 NPM: [https://www.npmjs.com/package/ion2-datetime-picker](https://www.npmjs.com/package/ion2-datetime-picker)
-<!---
-## Preview
-### Picker with Independent/ Dependent Columns
 
-![Picker with Independent Columns](https://github.com/raychenfj/ion-multi-picker/blob/master/img/independent.gif?raw=true)
-![Picker with Dependent Columns](https://github.com/raychenfj/ion-multi-picker/blob/master/img/dependent.gif?raw=true)
+## Depenencies
 
-## Supported Version
-
-Ionic2 2.0.0-rc.3
-
-Ionic CLI 2.1.12 -->
+[moment](https://www.npmjs.com/package/moment) ^2.19.4
 
 ## Demo
 
