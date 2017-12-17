@@ -158,6 +158,10 @@ You can also add your use case in the `app/pages`.
 
 Finally, send me a `PULL REQUEST`.
 
+## [Changelog](https://github.com/byzg/ion2-datetime-picker/blob/master/CHANGELOG.md)
+
+## [Releases](https://github.com/byzg/ion2-datetime-picker/releases)
+
 ##### Build
 
 `gulp default`
