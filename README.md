@@ -28,8 +28,13 @@ Code of this example [here](https://github.com/byzg/ion2-datetime-picker/tree/ma
 
 
 ## Installation
+NPM:
 ```
 npm install ion2-datetime-picker --save
+```
+Yarn:
+```
+yarn add ion2-datetime-picker
 ```
 
 ## Usage
