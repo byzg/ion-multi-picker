@@ -12,8 +12,6 @@ only independent columns that has some validation problems. Also there is
 [min and max issue](https://github.com/driftyco/ionic/issues/6850) with time validation.
 This one helps to solve these problems.
 
-**Note: [MomentJS](http://momentjs.com/) requred for using some features of the package**
-
 Github: [https://github.com/byzg/ion2-datetime-picker](https://github.com/byzg/ion2-datetime-picker)
 
 NPM: [https://www.npmjs.com/package/ion2-datetime-picker](https://www.npmjs.com/package/ion2-datetime-picker)
