@@ -5,27 +5,10 @@
   "files": [
     "dist"
   ],
-  "dependencies": {
-    "@angular/common": "2.1.1",
-    "@angular/compiler": "2.1.1",
-    "@angular/compiler-cli": "2.1.1",
-    "@angular/core": "2.1.1",
-    "@angular/forms": "2.1.1",
-    "@angular/http": "2.1.1",
-    "@angular/platform-browser": "2.1.1",
-    "@angular/platform-browser-dynamic": "2.1.1",
-    "@angular/platform-server": "2.1.1",
-    "@ionic/storage": "^1.1.6",
-    "@types/lodash": "^4.14.38",
-    "ionic-angular": "^2.0.0-rc.5",
-    "ionic-native": "^2.2.6",
-    "ionicons": "^3.0.0",
-    "zone.js": "0.6.26"
-  },
   "scripts": {
     "e2e": "tsc -p tsconfig.test.json && concurrently \"webdriver-manager start\" \"protractor protractor.conf.js\"",
-    "test": "karma start ./config/karma.conf.js",
-    "test-watch": "karma start ./config/karma.conf.js --auto-watch --no-single-run",
+    "test": "QT_QPA_PLATFORM='' karma start ./config/karma.conf.js",
+    "test-watch": "QT_QPA_PLATFORM='' karma start ./config/karma.conf.js --auto-watch --no-single-run",
     "posttest": "remap-istanbul -i config/coverage/json/coverage-final.json -o config/coverage/html -t html",
     "coverage": "open \"coverage/PhantomJS 2.1.1 (Mac OS X 0.0.0)/index.html\"",
     "build": "ionic-app-scripts build",
@@ -36,11 +19,25 @@
     "build:before": "build",
     "run:before": "build"
   },
+  "dependencies": {
+    "moment": "^2.19.4"
+  },
   "devDependencies": {
+    "@angular/common": "2.1.1",
+    "@angular/compiler": "2.1.1",
+    "@angular/compiler-cli": "2.1.1",
+    "@angular/core": "2.1.1",
+    "@angular/forms": "2.1.1",
+    "@angular/http": "2.1.1",
+    "@angular/platform-browser": "2.1.1",
+    "@angular/platform-browser-dynamic": "2.1.1",
+    "@angular/platform-server": "2.1.1",
     "@angularclass/hmr": "^1.0.1",
     "@angularclass/hmr-loader": "^3.0.2",
     "@ionic/app-scripts": "^0.0.45",
-    "@types/jasmine": "^2.5.38",
+    "@ionic/storage": "^1.1.6",
+    "@types/jasmine": "2.5.38",
+    "@types/lodash": "4.14.38",
     "angular2-template-loader": "^0.6.0",
     "awesome-typescript-loader": "^2.2.4",
     "concurrently": "^3.1.0",
@@ -51,9 +48,13 @@
     "file-loader": "^0.9.0",
     "gulp": "3.9.1",
     "gulp-shell": "^0.5.2",
+    "gulp-util": "^3.0.8",
     "gulp-watch": "4.3.11",
     "html-loader": "^0.4.0",
     "html-webpack-plugin": "^2.8.1",
+    "ionic-angular": "2.0.0-rc.5",
+    "ionic-native": "2.2.6",
+    "ionicons": "3.0.0",
     "istanbul-instrumenter-loader": "^0.2.0",
     "jasmine": "^2.5.2",
     "json-loader": "^0.5.3",
@@ -72,16 +73,17 @@
     "raw-loader": "^0.5.1",
     "remap-istanbul": "^0.6.4",
     "run-sequence": "^1.2.2",
+    "rxjs": "5.0.0-beta.12",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.0",
     "ts-helpers": "^1.1.1",
     "tslint": "^3.4.0",
     "tslint-loader": "^2.1.0",
-    "typedoc": "^0.5.1",
     "typescript": "2.0.10",
     "url-loader": "^0.5.7",
-    "webpack": "^2.1.0-beta.25",
-    "webpack-dashboard": "^0.2.0"
+    "webpack": "2.1.0-beta.25",
+    "webpack-dashboard": "^0.2.0",
+    "zone.js": "0.6.26"
   },
   "name": "ion2-datetime-picker",
   "description": "Ion Multi Item Picker--An Ionic2 Custom Picker Component",
@@ -101,12 +103,11 @@
       "locator": "ios"
     }
   ],
-  "version": "1.1.9",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raychenfj/ion-multi-picker.git"
+    "url": "git+https://github.com/byzg/ion2-datetime-picker.git"
   },
   "keywords": [
     "ionic",
@@ -118,10 +119,11 @@
     "picker",
     "component"
   ],
-  "author": "raychenfj",
+  "author": "byzg",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/raychenfj/ion-multi-picker/issues"
+    "url": "https://github.com/byzg/ion2-datetime-picker/issues"
   },
-  "homepage": "https://github.com/raychenfj/ion-multi-picker#readme"
+  "homepage": "https://github.com/byzg/ion2-datetime-picker#readme",
+  "version": "1.2.0"
 }
