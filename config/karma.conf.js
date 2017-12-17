@@ -7,6 +7,7 @@ module.exports = function(config) {
     reporters: [
       'progress',
       'coverage',
+      'coveralls'
     ],
     files: [
       { pattern: './karma-shim.js', watched: false }
@@ -27,14 +28,21 @@ module.exports = function(config) {
     // Configure code coverage reporter
     coverageReporter: {
       dir: 'coverage/',
-      reporters: [{
-        type: 'text-summary'
-      }, {
-        type: 'json',
-        dir: 'coverage',
-        subdir: 'json',
-        file: 'coverage-final.json'
-      }]
+      reporters: [
+        {
+          type: 'text-summary'
+        },
+        {
+          type: 'lcov',
+          dir: 'coverage'
+        },
+        {
+          type: 'json',
+          dir: 'coverage',
+          subdir: 'json',
+          file: 'coverage-final.json'
+        }
+      ]
     },
 
     //Webpack
